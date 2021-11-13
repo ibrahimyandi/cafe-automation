@@ -1,0 +1,149 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Stok ekle
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="select1">Grubu</label>
+                <div class="col-md-9">
+                  <select id="select1" name="select1" class="form-control">
+                    <option value="0">Please select</option>
+                    <option value="1">Option #1</option>
+                    <option value="2">Option #2</option>
+                    <option value="3">Option #3</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="select1">Ürün</label>
+                <div class="col-md-9">
+                  <select id="select1" name="select1" class="form-control">
+                    <option value="0">Please select</option>
+                    <option value="1">Option #1</option>
+                    <option value="2">Option #2</option>
+                    <option value="3">Option #3</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="input-prepend input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Adet</span>
+                </div>
+                <input id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="0" [(ngModel)]="alinanPara">
+              </div>
+            </div>
+            <div class="col-6">
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-6">
+              <button (click)="sell()" type="button" class="btn btn-success btn-square btn-block">STOK EKLE</button>
+            </div>
+            <div class="col-6">
+              <button (click)="cancel()" type="button" class="btn btn-danger btn-square btn-block">VAZGEÇ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> STOK LİSTESİ
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4">
+              <div class="input-group">
+                <span class="input-group-prepend">
+                  <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+                </span>
+                <input type="text" id="input1-group2" name="input1-group2" class="form-control" placeholder="Ürün">
+              </div>
+                </div>
+            <div class="col-12 mt-4">
+              <table class="table table-bordered table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>Ürün adı</th>
+                    <th>Adet</th>
+                    <th>Fiyat</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Vishnu Serghei</td>
+                    <td>2012/01/01</td>
+                    <td>Member</td>
+                    <td>
+                      <span class="badge badge-success">Active</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Zbyněk Phoibos</td>
+                    <td>2012/02/01</td>
+                    <td>Staff</td>
+                    <td>
+                      <span class="badge badge-danger">Banned</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Einar Randall</td>
+                    <td>2012/02/01</td>
+                    <td>Admin</td>
+                    <td>
+                      <span class="badge badge-secondary">Inactive</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Félix Troels</td>
+                    <td>2012/03/01</td>
+                    <td>Member</td>
+                    <td>
+                      <span class="badge badge-warning">Pending</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Aulus Agmundr</td>
+                    <td>2012/01/21</td>
+                    <td>Staff</td>
+                    <td>
+                      <span class="badge badge-success">Active</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">4</a></li>
+              <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+</div>
