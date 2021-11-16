@@ -15,7 +15,7 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Ürün adı</label>
                   <div class="col-md-9">
-                    <input type="text" id="text-input" name="text-input" class="form-control" placeholder="">
+                    <input [(ngModel)]="name" name="name" type="text" id="text-input" class="form-control" placeholder="">
                     <span class="help-block"></span>
                   </div>
                 </div>
@@ -26,7 +26,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text">₺</span>
                       </div>
-                      <input id="appendedPrependedInput" class="form-control" size="16" type="number">
+                      <input [(ngModel)]="price" name="price" id="appendedPrependedInput" class="form-control" size="16" type="number">
                       <div class="input-group-append">
                         <span class="input-group-text">.00</span>
                       </div>
@@ -36,18 +36,15 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="select3">Ürün grubu</label>
                   <div class="col-md-9">
-                    <select id="select3" name="select3" class="form-control form-control-sm">
-                      <option value="0">Grup seçiniz</option>
-                      <option value="1">Option #1</option>
-                      <option value="2">Option #2</option>
-                      <option value="3">Option #3</option>
+                    <select id="select3" name="group" class="form-control form-control-sm" [(ngModel)]="group">
+                      <option value="{{item.name}}" *ngFor="let item of groups">{{ item.name }}</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="file-input">Ürün fotoğrafı</label>
                   <div class="col-md-6">
-                    <input type="file" id="file-input" name="file-input">
+                    <input [(ngModel)]="photo" name="photo" type="file" id="file-input">
                   </div>
                   <div class="col-md-3">
                     <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17d1868e180%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17d1868e180%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4296875%22%20y%3D%22104.5609375%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="..." class="img-thumbnail">
@@ -56,126 +53,97 @@
               </form>
             </div>
             <div class="card-footer">
-              <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Ekle</button>
+              <button type="submit" class="btn btn-sm btn-primary" (click)="addProduct(name, price, group, photo)"><i class="fa fa-dot-circle-o"></i> Ekle</button>
               <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
             </div>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <strong>Ürün Düzenle</strong> 
-            </div>
-            <div class="card-body">
-              <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Ürün adı</label>
-                  <div class="col-md-9">
-                    <input type="text" id="text-input" name="text-input" class="form-control" placeholder="">
-                    <span class="help-block"></span>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün fiyatı</label>
-                  <div class="controls col-md-9">
-                    <div class="input-prepend input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">₺</span>
-                      </div>
-                      <input id="appendedPrependedInput" class="form-control" size="16" type="number">
-                      <div class="input-group-append">
-                        <span class="input-group-text">.00</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="select3">Ürün grubu</label>
-                  <div class="col-md-9">
-                    <select id="select3" name="select3" class="form-control form-control-sm">
-                      <option value="0">Grup seçiniz</option>
-                      <option value="1">Option #1</option>
-                      <option value="2">Option #2</option>
-                      <option value="3">Option #3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="file-input">Ürün fotoğrafı</label>
-                  <div class="col-md-6">
-                    <input type="file" id="file-input" name="file-input">
-                  </div>
-                  <div class="col-md-3">
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17d1868e180%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17d1868e180%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4296875%22%20y%3D%22104.5609375%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="..." class="img-thumbnail">
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="card-footer">
-              <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Düzenle</button>
-              <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-            </div>
-          </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-lg-12">
           <div class="card">
             <div class="card-header">
-              <strong>Ürün Sil</strong> 
+              <i class="fa fa-align-justify"></i> ÜRÜN LİSTESİ
             </div>
             <div class="card-body">
-              <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Ürün adı</label>
-                  <div class="col-md-9">
-                    <input type="text" id="text-input" name="text-input" class="form-control" placeholder="">
-                    <span class="help-block"></span>
+              <div class="row">
+                <div class="col-4">
+                  <div class="input-group">
+                    <span class="input-group-prepend">
+                      <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+                    </span>
+                    <input type="text" id="input1-group2" name="input1-group2" class="form-control" placeholder="Ürün">
                   </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün fiyatı</label>
-                  <div class="controls col-md-9">
-                    <div class="input-prepend input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">₺</span>
-                      </div>
-                      <input id="appendedPrependedInput" class="form-control" size="16" type="number">
-                      <div class="input-group-append">
-                        <span class="input-group-text">.00</span>
-                      </div>
                     </div>
-                  </div>
+                <div class="col-12 mt-4">
+                  <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>Ürün adı</th>
+                        <th>Ürün gurubu</th>
+                        <th>Fiyat</th>
+                        <th>Ayarlar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of products">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.group }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>
+                          <div class="row">
+                            <div class="col-6">
+                              <button type="button" class="btn btn-success btn-square btn-block" (click)="largeModal.show(item.name)">Düzenle</button>
+                            </div>
+                            <div class="col-6">
+                              <button (click)="cancel()" type="button" class="btn btn-danger btn-square btn-block">Sil</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="select3">Ürün grubu</label>
-                  <div class="col-md-9">
-                    <select id="select3" name="select3" class="form-control form-control-sm">
-                      <option value="0">Grup seçiniz</option>
-                      <option value="1">Option #1</option>
-                      <option value="2">Option #2</option>
-                      <option value="3">Option #3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="file-input">Ürün fotoğrafı</label>
-                  <div class="col-md-6">
-                    <input type="file" id="file-input" name="file-input">
-                  </div>
-                  <div class="col-md-3">
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17d1868e180%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17d1868e180%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4296875%22%20y%3D%22104.5609375%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="..." class="img-thumbnail">
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="card-footer">
-              <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Sil</button>
-              <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+              </div>
+              <nav>
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                  <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">4</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
-      </div>
+        <!--/.col-->
+      </div>    
     </div>
   </div>
 </div>
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Ürünü Düzenle</h4>
+        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

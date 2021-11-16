@@ -1,34 +1,32 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { getStyle, rgbToHex } from '@coreui/coreui/dist/js/coreui-utilities';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   templateUrl: 'colors.component.html'
 })
 export class ColorsComponent implements OnInit {
-  constructor(@Inject(DOCUMENT) private _document: any) {}
-
-  public themeColors(): void {
-    Array.from(this._document.querySelectorAll('.theme-color')).forEach((el: HTMLElement) => {
-      const background = getStyle('background-color', el);
-      const table = this._document.createElement('table');
-      table.innerHTML = `
-        <table class="w-100">
-          <tr>
-            <td class="text-muted">HEX:</td>
-            <td class="font-weight-bold">${rgbToHex(background)}</td>
-          </tr>
-          <tr>
-            <td class="text-muted">RGB:</td>
-            <td class="font-weight-bold">${background}</td>
-          </tr>
-        </table>
-      `;
-      el.parentNode.appendChild(table);
+  @ViewChild('largeModal') public largeModal: ModalDirective;
+  key;
+  name;
+  price;
+  group;
+  photo;
+  groups;
+  products;
+  constructor(private db: AngularFireDatabase,) {
+    db.list('/groups').valueChanges().subscribe(i => {
+      this.groups = i;
     });
+    db.list('/products').valueChanges().subscribe(i => {
+      this.products = i;
+      console.log(i);
+    })
   }
 
+  addProduct(name, price, group, photo){
+    this.db.list('/products').push({name:name,price:price,group:group,photo:photo,stock:0});
+  }
   ngOnInit(): void {
-    this.themeColors();
   }
 }

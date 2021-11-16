@@ -8,6 +8,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { SellComponent } from './sell.component';
 import { sellRoutingModule } from './sell-routing.module';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { CommonModule } from '@angular/common';
   declarations: [ SellComponent ]
 })
 export class sellModule {
+
   sell(){
     window.print();
   }
