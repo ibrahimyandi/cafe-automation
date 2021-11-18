@@ -1,388 +1,106 @@
 import { Component, OnInit } from '@angular/core';
-import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
   templateUrl: 'sell.component.html'
 })
 export class SellComponent implements OnInit {
+  groups;
+  products =[];
+  group;
+  name;
+  photo;
+  price;
+  stocks;
+  selected = [];
+  selectedProd = [];
+  totalPrice = 0;
+  alinanPara;
+  datestring;
+  selectExist =[];
+  exist = false;
+  counter=1;
+  ngOnInit(){}
+  constructor(private db:AngularFireDatabase){
+    db.list('/groups').valueChanges().subscribe(i => {
+      this.groups = i;
+    });
 
-  radioModel: string = 'Month';
-
-  // lineChart1
-  public lineChart1Data: Array<any> = [
-    {
-      data: [65, 59, 84, 84, 51, 55, 40],
-      label: 'Series A'
-    }
-  ];
-  public lineChart1Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart1Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        }
-
-      }],
-      yAxes: [{
-        display: false,
-        ticks: {
-          display: false,
-          min: 40 - 5,
-          max: 84 + 5,
-        }
-      }],
-    },
-    elements: {
-      line: {
-        borderWidth: 1
-      },
-      point: {
-        radius: 4,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
-  public lineChart1Colours: Array<any> = [
-    {
-      backgroundColor: getStyle('--primary'),
-      borderColor: 'rgba(255,255,255,.55)'
-    }
-  ];
-  public lineChart1Legend = false;
-  public lineChart1Type = 'line';
-
-  // lineChart2
-  public lineChart2Data: Array<any> = [
-    {
-      data: [1, 18, 9, 17, 34, 22, 11],
-      label: 'Series A'
-    }
-  ];
-  public lineChart2Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart2Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        }
-
-      }],
-      yAxes: [{
-        display: false,
-        ticks: {
-          display: false,
-          min: 1 - 5,
-          max: 34 + 5,
-        }
-      }],
-    },
-    elements: {
-      line: {
-        tension: 0.00001,
-        borderWidth: 1
-      },
-      point: {
-        radius: 4,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
-  public lineChart2Colours: Array<any> = [
-    { // grey
-      backgroundColor: getStyle('--info'),
-      borderColor: 'rgba(255,255,255,.55)'
-    }
-  ];
-  public lineChart2Legend = false;
-  public lineChart2Type = 'line';
-
-
-  // lineChart3
-  public lineChart3Data: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40],
-      label: 'Series A'
-    }
-  ];
-  public lineChart3Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart3Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false
-      }],
-      yAxes: [{
-        display: false
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
-  public lineChart3Colours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.2)',
-      borderColor: 'rgba(255,255,255,.55)',
-    }
-  ];
-  public lineChart3Legend = false;
-  public lineChart3Type = 'line';
-
-
-  // barChart1
-  public barChart1Data: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40, 78, 81, 80, 45, 34, 12, 40, 12, 40],
-      label: 'Series A',
-      barPercentage: 0.6,
-    }
-  ];
-  public barChart1Labels: Array<any> = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
-  public barChart1Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false,
-      }],
-      yAxes: [{
-        display: false
-      }]
-    },
-    legend: {
-      display: false
-    }
-  };
-  public barChart1Colours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.3)',
-      borderWidth: 0
-    }
-  ];
-  public barChart1Legend = false;
-  public barChart1Type = 'bar';
-
-  // mainChart
-
-  public mainChartElements = 27;
-  public mainChartData1: Array<number> = [];
-  public mainChartData2: Array<number> = [];
-  public mainChartData3: Array<number> = [];
-
-  public mainChartData: Array<any> = [
-    {
-      data: this.mainChartData1,
-      label: 'Current'
-    },
-    {
-      data: this.mainChartData2,
-      label: 'Previous'
-    },
-    {
-      data: this.mainChartData3,
-      label: 'BEP'
-    }
-  ];
-  /* tslint:disable:max-line-length */
-  public mainChartLabels: Array<any> = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Thursday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  /* tslint:enable:max-line-length */
-  public mainChartOptions: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips,
-      intersect: true,
-      mode: 'index',
-      position: 'nearest',
-      callbacks: {
-        labelColor: function(tooltipItem, chart) {
-          return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor };
-        }
-      }
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          drawOnChartArea: false,
-        },
-        ticks: {
-          callback: function(value: any) {
-            return value.charAt(0);
-          }
-        }
-      }],
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          maxTicksLimit: 5,
-          stepSize: Math.ceil(250 / 5),
-          max: 250
-        }
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-        hoverBorderWidth: 3,
-      }
-    },
-    legend: {
-      display: false
-    }
-  };
-  public mainChartColours: Array<any> = [
-    { // brandInfo
-      backgroundColor: hexToRgba(getStyle('--info'), 10),
-      borderColor: getStyle('--info'),
-      pointHoverBackgroundColor: '#fff'
-    },
-    { // brandSuccess
-      backgroundColor: 'transparent',
-      borderColor: getStyle('--success'),
-      pointHoverBackgroundColor: '#fff'
-    },
-    { // brandDanger
-      backgroundColor: 'transparent',
-      borderColor: getStyle('--danger'),
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 1,
-      borderDash: [8, 5]
-    }
-  ];
-  public mainChartLegend = false;
-  public mainChartType = 'line';
-
-  // social box charts
-
-  public brandBoxChartData1: Array<any> = [
-    {
-      data: [65, 59, 84, 84, 51, 55, 40],
-      label: 'Facebook'
-    }
-  ];
-  public brandBoxChartData2: Array<any> = [
-    {
-      data: [1, 13, 9, 17, 34, 41, 38],
-      label: 'Twitter'
-    }
-  ];
-  public brandBoxChartData3: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40],
-      label: 'LinkedIn'
-    }
-  ];
-  public brandBoxChartData4: Array<any> = [
-    {
-      data: [35, 23, 56, 22, 97, 23, 64],
-      label: 'Google+'
-    }
-  ];
-
-  public brandBoxChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public brandBoxChartOptions: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false,
-      }],
-      yAxes: [{
-        display: false,
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-        hoverBorderWidth: 3,
-      }
-    },
-    legend: {
-      display: false
-    }
-  };
-  public brandBoxChartColours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.1)',
-      borderColor: 'rgba(255,255,255,.55)',
-      pointHoverBackgroundColor: '#fff'
-    }
-  ];
-  public brandBoxChartLegend = false;
-  public brandBoxChartType = 'line';
-
-  public random(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    db.list('/selected').valueChanges().subscribe(i => {
+      this.totalPrice = 0;
+      this.selectedProd = i;
+      this.selectedProd.forEach(element => {
+        this.totalPrice += element.price * element.count;
+      });
+    });
+      this.db.list("/selected").snapshotChanges().forEach(x=>{
+      this.selectExist = x;
+    })
+    
+    db.list('/products').snapshotChanges().forEach(i=>{
+      this.products = i;
+    });
   }
-
-  ngOnInit(): void {
-    // generate random values for mainChart
-    for (let i = 0; i <= this.mainChartElements; i++) {
-      this.mainChartData1.push(this.random(50, 200));
-      this.mainChartData2.push(this.random(80, 100));
-      this.mainChartData3.push(65);
+  selectProduct(key){
+    this.counter=1;
+    this.products.forEach(element => {
+      if(key == element.key){
+        this.group = element.payload.val().group;
+        this.name = element.payload.val().name;
+        this.photo = element.payload.val().photo;
+        this.price = element.payload.val().price;
+        this.stocks = element.payload.val().stock;
+      }
+    });
+    var d = new Date();
+    this.datestring = d.getDate()  + "." + (d.getMonth()+1) + "." + d.getFullYear() + "-" + d.getHours() + ":" + d.getUTCMinutes();
+   
+    this.selectExist.forEach(i=>{
+      if(key == i.key){
+        this.exist = true;
+        this.counter = i.payload.val().count;
+      }
+    })
+    if(!this.exist){
+      this.db.database.ref("/selected/"+key).update({name:this.name,group:this.group,price:this.price,stock:this.stocks,count:this.counter,date:this.datestring});
     }
+    else{
+      this.counter +=1;
+      this.db.database.ref("/selected/"+key).update({name:this.name,group:this.group,price:this.price,stock:this.stocks,count:this.counter,date:this.datestring});
+    }
+    this.exist = false;
+    //this.totalPrice += parseInt(this.price);
+  }
+  key;
+  sellCount;
+  sell(){
+    var newWin = window.open("");
+    newWin.document.write("<!DOCTYPE html><html lang='en'> <head> <meta charset='utf-8'> <title>SKS Fatura</title> <style>.clearfix:after { content: ''; display: table; clear: both;}a { color: #5D6975; text-decoration: underline;}body { position: relative; width: 21cm; height: 29.7cm; margin: 0 auto; color: #001028; background: #FFFFFF; font-family: Arial, sans-serif; font-size: 12px; font-family: Arial;}header { padding: 10px 0; margin-bottom: 30px;}#logo { text-align: right; margin-bottom: 10px;}#logo img { width: 90px;}h1 { border-top: 1px solid #5D6975; border-bottom: 1px solid #5D6975; color: #5D6975; font-size: 2.4em; line-height: 1.4em; font-weight: normal; text-align: center; margin: 0 0 20px 0; background: url(dimension.png);}#project { float: left;}#project span { color: #5D6975; text-align: right; width: 52px; margin-right: 10px; display: inline-block; font-size: 0.8em;}#company { float: right; text-align: right;}#project div,#company div { white-space: nowrap; }table { width: 100%; border-collapse: collapse; border-spacing: 0; margin-bottom: 20px;}table tr:nth-child(2n-1) td { background: #F5F5F5;}table th,table td { text-align: center;}table th { padding: 5px 20px; color: #5D6975; border-bottom: 1px solid #C1CED9; white-space: nowrap; font-weight: normal;}table .service,table .desc { text-align: left;}table td { padding: 20px; text-align: right;}table td.service,table td.desc { vertical-align: top;}table td.unit,table td.qty,table td.total { font-size: 1.2em;}table td.grand { border-top: 1px solid #5D6975;;}#notices .notice { color: #5D6975; font-size: 1.2em;}footer { color: #5D6975; width: 100%; height: 30px; position: absolute; bottom: 0; border-top: 1px solid #C1CED9; padding: 8px 0; text-align: center;}</style> </head> <body> <header class='clearfix'> <div id='logo'> <img src='logo.png'> </div> <h1>INVOICE 3-2-1</h1> <div id='company' class='clearfix'> <div>Company Name</div> <div>455 Foggy Heights,<br /> AZ 85004, US</div> <div>(602) 519-0450</div> <div><a href='mailto:company@example.com'>company@example.com</a></div> </div> <div id='project'> <div><span>PROJECT</span> Website development</div> <div><span>CLIENT</span> John Doe</div> <div><span>ADDRESS</span> 796 Silver Harbour, TX 79273, US</div> <div><span>EMAIL</span> <a href='mailto:john@example.com'>john@example.com</a></div> <div><span>DATE</span> August 17, 2015</div> <div><span>DUE DATE</span> September 17, 2015</div> </div> </header> <main> <table> <thead> <tr> <th>ÜRÜN ADI</th> <th>FİYAT</th> <th>ADET</th> <th>TUTAR</th> </tr> </thead> <tbody>");
+    this.selectExist.forEach(x=>{
+      console.log(x);
+      var total = x.payload.val().price * x.payload.val().count;
+      newWin.document.write("<tr>");
+      newWin.document.write("<td>"+x.payload.val().name+"</td>");
+      newWin.document.write("<td>"+x.payload.val().price+'₺'+"</td>");
+      newWin.document.write("<td>"+x.payload.val().count+"</td>");
+      newWin.document.write("<td>"+total+"</td>");
+      newWin.document.write("</tr>");
+      var sellStock = parseInt(x.payload.val().stock) - parseInt(x.payload.val().count);
+      console.log(x.payload.val().stock,x.payload.val().count)
+      this.db.database.ref("/products/"+x.key).update({stock:sellStock});
+      this.db.list("/statistics").push({name:x.payload.val().name,group:x.payload.val().group, price:x.payload.val().price, count:x.payload.val().count, date:x.payload.val().date});
+    })
+    newWin.document.write("</tbody> <tr> <td colspan='3' class='grand total'>TOPLAM TUTAR </td> <td class='grand total'>"+this.totalPrice+"₺"+"</td> </tr> </table> ");
+    newWin.document.write("<div id='notices'> <div></div> <div class='notice'></div> </div> </main> <footer> Fatura bir bilgisayarda oluşturuldu imza ve mühür olmadan geçerlidir. </footer> </body></html>");
+    newWin.print();  
+    newWin.close();
+    this.db.list("/selected").remove();
+    //this.totalPrice = 0;
+    this.alinanPara = 0;
+  }
+  cancel(){
+    this.db.list("/selected").remove();
+    this.totalPrice = 0;
+    this.alinanPara = 0;
   }
 }

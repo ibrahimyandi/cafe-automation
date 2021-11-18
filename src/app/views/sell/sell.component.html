@@ -7,10 +7,12 @@
   <div class="row">
     <div class="col-md-9">
       <tabset>
-        <tab heading="{{number}}" *ngFor="let number of [0,1,2,3,4]">
+        <tab heading="{{group.name}}" *ngFor="let group of groups">
           <div class="row">
-            <div class="float-left" *ngFor="let number of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]">
-              <img style="width: 128px;height: 128px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17d1868e180%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17d1868e180%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4296875%22%20y%3D%22104.5609375%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" class="rounded float-left" alt="...">
+            <div *ngFor="let prod of products">
+              <div class="float-left" *ngIf="group.name == prod.payload.val().group && prod.payload.val().stock > 0" (click)="selectProduct(prod.key)">
+                <img style="width: 128px;height: 128px;" src="{{prod.payload.val().photo}}" class="rounded float-left" alt="...">
+              </div>
             </div>
           </div>
         </tab>
@@ -22,7 +24,7 @@
           <i class="cil-cash"></i> Satılacaklar
         </div>
         <div class="card-body">
-          <div class="row">
+          <div class="row" id="printTable">
             <table class="table table-bordered table-striped table-sm">
               <thead>
                 <tr>
@@ -32,31 +34,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Vishnu Serghei</td>
-                  <td>5</td>
-                  <td>Member</td>
-  
-                </tr>
-                <tr>
-                  <td>Zbyněk Phoibos</td>
-                  <td>3</td>
-                  <td>Staff</td>
-                </tr>
-                <tr>
-                  <td>Einar Randall</td>
-                  <td>2</td>
-                  <td>Admin</td>
-                </tr>
-                <tr>
-                  <td>Félix Troels</td>
-                  <td>6</td>
-                  <td>Member</td>
-                </tr>
-                <tr>
-                  <td>Aulus Agmundr</td>
-                  <td>1</td>
-                  <td>Staff</td>
+                <tr *ngFor="let item of selectedProd">
+                  <td>{{item.name}}</td>
+                  <td>{{item.count}}</td>
+                  <td>{{item.price}}</td>
                 </tr>
               </tbody>
             </table>
@@ -66,7 +47,7 @@
               <label>Toplam tutar: </label>
             </div>
             <div class="col-6">
-              <label>5</label>
+              <label>{{totalPrice}}</label>
             </div>
           </div>
           <div class="row">
@@ -87,9 +68,9 @@
               <label>Para üstü: </label>
             </div>
             <div class="col-6">
-              <label *ngIf="alinanPara-5<0">Eksik para verildi.</label>
-              <label *ngIf="alinanPara-5>0">{{alinanPara-5}}₺</label>
-              <label *ngIf="alinanPara-5==0">Ödendi</label>
+              <label *ngIf="alinanPara-this.totalPrice<0">Eksik para verildi.</label>
+              <label *ngIf="alinanPara-this.totalPrice>0">{{alinanPara-totalPrice}}₺</label>
+              <label *ngIf="alinanPara-this.totalPrice==0">Ödendi</label>
             </div>
           </div>
           <div class="row">

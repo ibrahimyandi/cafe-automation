@@ -2,8 +2,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ColorsComponent } from './colors.component';
-import { TypographyComponent } from './typography.component';
+import { ProductsComponent } from './products.component';
+import { GroupsComponent } from './groups.component';
 import { FormsModule } from '@angular/forms';
 // Theme Routing
 import { ThemeRoutingModule } from './theme-routing.module';
@@ -18,8 +18,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
   ],
   declarations: [
-    ColorsComponent,
-    TypographyComponent
+    ProductsComponent,
+    GroupsComponent
   ]
 })
 export class ThemeModule { }

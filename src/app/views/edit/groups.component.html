@@ -1,0 +1,127 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <i class="icon-drop"></i> Grup Ekle / Düzenle / Sil
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <strong>Grup ekle</strong> 
+            </div>
+            <div class="card-body">
+              <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Grup adı</label>
+                  <div class="col-md-9">
+                    <input type="text" id="text-input" name="groupName" [(ngModel)]="groupName" class="form-control" placeholder="">
+                    <span class="help-block"></span>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-sm btn-primary" (click)="addGroup(groupName)"><i class="fa fa-dot-circle-o"></i> Ekle</button>
+              <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> ÜRÜN LİSTESİ
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4">
+                  <div class="input-group">
+                    <span class="input-group-prepend">
+                      <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+                    </span>
+                    <input type="text" id="input1-group2" name="input1-group2" class="form-control" placeholder="Ürün">
+                  </div>
+                    </div>
+                <div class="col-12 mt-4">
+                  <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>Grup adı</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of groups">
+                        <td>{{ item.payload.val().name }}</td>
+                        <td>{{ item.payload.val().group }}</td>
+                        <td>{{ item.payload.val().price }}</td>
+                        <td>
+                          <div class="row">
+                            <div class="col-6">
+                              <button type="button" class="btn btn-success btn-square btn-block" (click)="modalOpen(item.key)" (click)="largeModal.show()">Düzenle</button>
+                            </div>
+                            <div class="col-6">
+                              <button type="button" class="btn btn-danger btn-square btn-block" (click)="deleteGroup(item.key)">Sil</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <nav>
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                  <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">4</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+      </div>    
+    </div>
+  </div>
+</div>
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Ürünü Düzenle</h4>
+        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="text-input">Ürün adı</label>
+                <div class="col-md-9">
+                  <input [(ngModel)]="name" name="name" type="text" id="text-input" class="form-control" placeholder="">
+                  <span class="help-block"></span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Vazgeç</button>
+        <button type="button" class="btn btn-primary" (click)="editGroup(name)">Değişiklikleri kaydet</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

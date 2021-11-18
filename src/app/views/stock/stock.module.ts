@@ -6,6 +6,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { CommonModule } from "@angular/common";
 import { StockComponent } from './stock.component';
 import { stockRoutingModule } from './stock-routing.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
@@ -15,7 +16,10 @@ import { stockRoutingModule } from './stock-routing.module';
     BsDropdownModule,
     ButtonsModule.forRoot(),
     CommonModule,
+    ModalModule,
   ],
   declarations: [ StockComponent ]
 })
-export class stockModule { }
+export class stockModule { 
+
+}

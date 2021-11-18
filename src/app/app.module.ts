@@ -22,10 +22,10 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AuthService } from './shared/services/auth.services';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -74,13 +74,13 @@ import { environment } from '../environments/environment';
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
   ],
   providers: [
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: HashLocationStrategy,
     },
+    AuthService,
     IconSetService,
   ],
   bootstrap: [ AppComponent ]
