@@ -19,6 +19,7 @@ export class StockComponent implements OnInit {
   groups;
   products;
   modalDetail = [];
+  dateString;
   constructor(private db:AngularFireDatabase){
     db.list('/groups').valueChanges().subscribe(i => {
       this.groups = i;
@@ -40,13 +41,17 @@ export class StockComponent implements OnInit {
     this.keys = key;
   }
   addStock(stock){
+    var d = new Date();
+    this.dateString = d.getDate()  + "." + (d.getMonth()+1) + "." + d.getFullYear() + "-" + d.getHours() + ":" + d.getUTCMinutes();
     this.db.list('/products/'+this.keys).valueChanges().forEach(x=> {
       this.stocks = x[4];
+      this.name = x[1];
+      this.group = x[0];
     });
     this.total = parseInt(this.stocks) + parseInt(stock);
-    console.log(this.total);
     this.db.database.ref('/products/'+this.keys).update({stock:this.total});
     this.largeModal.hide();
     this.total = 0;
+    this.db.list("/stock").push({name:this.name,group:this.group,date:this.dateString,stock:stock});
   }
 }

@@ -34,11 +34,21 @@ export class ProductsComponent implements OnInit {
     });
     this.keys = key;
   }
-  deleteProduct(name){
-    this.db.list('/products/'+name).remove();
+  deleteProduct(key){
+    this.db.list('/products/'+key).remove();
   }
   addProduct(name, price, group, photo){
     this.db.list('/products').push({name:name,price:price,group:group,photo:photo,stock:0});
+    this.name = "";
+    this.price = "";
+    this.group = "";
+    this.photo = "";
+  }
+  clear(){
+    this.name = "";
+    this.price = "";
+    this.group = "";
+    this.photo = "";
   }
   editProduct(name, price, group, photo){
     this.db.database.ref('/products/'+this.keys).update({name:name, price:price, group:group, photo:photo, stock:0});

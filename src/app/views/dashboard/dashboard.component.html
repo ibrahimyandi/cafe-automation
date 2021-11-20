@@ -30,8 +30,50 @@
                   <tr *ngFor="let item of statistics">
                     <td>{{ item.name }}</td>
                     <td>{{ item.group }}</td>
-                    <td>{{ item.price }}</td>
+                    <td>{{ item.price }}₺</td>
                     <td>{{ item.count }}</td>
+                    <td>{{ item.date }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">Toplam satış tutarı: {{ totalIncome }}₺</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Eklenen Stoklar
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4">
+              <div class="input-group">
+                <span class="input-group-prepend">
+                  <button [(ngModel)]="search" type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+                </span>
+                <input type="text" id="input1-group2" name="input1-group2" class="form-control" placeholder="Ürün">
+              </div>
+                </div>
+            <div class="col-12 mt-4">
+              <table class="table table-bordered table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>Ürün adı</th>
+                    <th>Grup</th>
+                    <th>Adet</th>
+                    <th>Tarih</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of stock">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.group }}</td>
+                    <td>{{ item.stock }}</td>
                     <td>{{ item.date }}</td>
                   </tr>
                 </tbody>
@@ -42,4 +84,5 @@
       </div>
     </div>
   </div>
+
 </div>

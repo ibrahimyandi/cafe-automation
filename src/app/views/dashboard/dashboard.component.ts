@@ -7,10 +7,18 @@ import { AngularFireDatabase } from '@angular/fire/database';
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  statistics;
+  statistics = [];
+  totalIncome = 0;
+  stock = [];
   constructor(db:AngularFireDatabase){
      db.list('/statistics').valueChanges().subscribe(i => {
-      this.statistics = i;
+      this.statistics = i.reverse();
+      this.statistics.forEach(element => {
+        this.totalIncome += element.count * element.price;
+      });
+    });
+    db.list('/stock').valueChanges().subscribe(i => {
+      this.stock = i.reverse();
     });
   }
   ngOnInit(){}

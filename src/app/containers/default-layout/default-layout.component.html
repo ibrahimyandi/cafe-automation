@@ -5,18 +5,19 @@
   [sidebarToggler]="'lg'"
   [asideMenuToggler]="''">
   <ul class="nav navbar-nav d-md-down-none">
-    <li class="nav-item px-3">
+    <li class="nav-item px-3" *ngIf="user=='admin@sks.com'">
       <a class="nav-link" href="./#/dashboard">İstatistik</a>
     </li>
-    <li class="nav-item px-3">
+    <li class="nav-item px-3" *ngIf="user=='stock@sks.com'  || user=='admin@sks.com'">
       <a class="nav-link" href="./#/stock">Stok</a>
     </li>
-    <li class="nav-item px-3">
+    <li class="nav-item px-3" *ngIf="user=='sales@sks.com' || user=='admin@sks.com'">
       <a class="nav-link" href="./#/sell">Satış</a>
     </li>
   </ul>
   <ul class="nav navbar-nav ml-auto">
-    <i class="cil-account-logout mr-4" (click)="authService.signOut()"></i>
+    <li class="mr-4">{{user}}</li>
+    <li><i class="cil-account-logout mr-4" (click)="authService.signOut()"></i></li>
   </ul>
 </app-header>
 <div class="app-body">
