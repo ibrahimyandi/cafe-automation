@@ -44,7 +44,7 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="file-input">Ürün fotoğrafı</label>
                   <div class="col-md-6">
-                    <input [(ngModel)]="photo" name="photo" type="text" id="text-input" class="form-control" placeholder="">
+                    <input [(ngModel)]="photo" name="photo" type="text" id="text-input" class="form-control" placeholder="URL">
                   </div>
                   <div class="col-md-3">
                     <img src="{{photo}}" alt="..." class="img-thumbnail">
@@ -53,7 +53,7 @@
               </form>
             </div>
             <div class="card-footer">
-              <button type="submit" class="btn btn-sm btn-primary" (click)="addProduct(name, price, group, photo)"><i class="fa fa-dot-circle-o"></i> Ekle</button>
+              <button [disabled]="name==null || price==null || group==null || photo==null || name=='' || price=='' || group=='' || photo==''" type="submit" class="btn btn-sm btn-primary" (click)="addProduct(name, price, group, photo)"><i class="fa fa-dot-circle-o"></i> Ekle</button>
               <button type="reset" class="btn btn-sm btn-danger" (click)="clear()"><i class="fa fa-ban"></i> Temizle</button>
             </div>
           </div>
@@ -74,7 +74,7 @@
                     <span class="input-group-prepend">
                       <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
                     </span>
-                    <input type="text" id="input1-group2" name="input1-group2" class="form-control" placeholder="Ürün">
+                    <input type="text" id="input1-group2" name="search" [(ngModel)]="search" class="form-control" placeholder="Ürün">
                   </div>
                     </div>
                 <div class="col-12 mt-4">
@@ -88,7 +88,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let item of products">
+                      <tr *ngFor="let item of products | filter:search">
                         <td>{{ item.payload.val().name }}</td>
                         <td>{{ item.payload.val().group }}</td>
                         <td>{{ item.payload.val().price }}</td>
@@ -107,18 +107,6 @@
                   </table>
                 </div>
               </div>
-              <nav>
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                  <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">4</a></li>
-                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-              </nav>
             </div>
           </div>
         </div>

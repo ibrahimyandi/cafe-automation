@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 // Theme Routing
 import { ThemeRoutingModule } from './theme-routing.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
-
+import { searchPipe3 } from './pipe';
 @NgModule({
   imports: [
     FormsModule,
@@ -19,7 +19,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   ],
   declarations: [
     ProductsComponent,
-    GroupsComponent
+    GroupsComponent,
+    searchPipe3,
   ]
 })
 export class ThemeModule { }

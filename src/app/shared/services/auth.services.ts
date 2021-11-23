@@ -41,6 +41,6 @@ export class AuthService {
     }
     signOut(){
         this.auth.signOut();
-        this.router.navigate(['login']);
+        location.reload();
     }
 }

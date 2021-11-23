@@ -8,11 +8,11 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class ProductsComponent implements OnInit {
   @ViewChild('largeModal') public largeModal: ModalDirective;
   key;
-  name;
-  price;
-  group;
-  photo;
-  groups;
+  name=null;
+  price=null;
+  group=null;
+  photo=null;
+  groups=null;
   products;
   modalDetail = [];
   keys;

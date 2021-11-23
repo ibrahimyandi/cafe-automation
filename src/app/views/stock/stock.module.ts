@@ -7,6 +7,7 @@ import { CommonModule } from "@angular/common";
 import { StockComponent } from './stock.component';
 import { stockRoutingModule } from './stock-routing.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { searchPipe2 } from './pipe';
 
 @NgModule({
   imports: [
@@ -18,7 +19,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     CommonModule,
     ModalModule,
   ],
-  declarations: [ StockComponent ]
+  declarations: [ 
+    StockComponent,
+    searchPipe2,
+  ]
 })
 export class stockModule { 
 

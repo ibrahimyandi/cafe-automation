@@ -11,6 +11,7 @@ export class GroupsComponent {
   name;
   modalDetail;
   keys;
+  groupName = null;
   constructor(private db: AngularFireDatabase,) {
     db.list('/groups').snapshotChanges().forEach(i=>{
       this.groups = i;
@@ -25,6 +26,9 @@ export class GroupsComponent {
   }
   addGroup(name){
     this.db.list('/groups').push({name:name});
+  }
+  reset(){
+    this.groupName = "";
   }
   deleteGroup(key){
     this.db.list('/groups/'+key).remove();

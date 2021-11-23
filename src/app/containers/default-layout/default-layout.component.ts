@@ -38,7 +38,7 @@ export class DefaultLayoutComponent {
       }
     })
   }
-
+ 
   toggleMinimize(e) {
     this.sidebarMinimized = e;
   }
