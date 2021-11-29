@@ -16,6 +16,7 @@ export class StockComponent implements OnInit {
   stocks;
   total = 0;
   keys;
+  stock=null;
   groups;
   products;
   modalDetail = [];
@@ -53,5 +54,6 @@ export class StockComponent implements OnInit {
     this.largeModal.hide();
     this.total = 0;
     this.db.list("/stock").push({name:this.name,group:this.group,date:this.dateString,stock:stock});
+    this.stock=null;
   }
 }

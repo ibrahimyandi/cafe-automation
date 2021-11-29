@@ -49,19 +49,19 @@
                     <thead>
                       <tr>
                         <th>Grup adı</th>
-                        <th></th>
+                        <th>Düzenle / Sil</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of groups">
-                        <td>{{ item.payload.val().name }}</td>
-                        <td>
+                        <td class="col-6">{{ item.payload.val().name }}</td>
+                        <td class="col-6">
                           <div class="row">
                             <div class="col-6">
-                              <button type="button" class="btn btn-success btn-square btn-block" (click)="modalOpen(item.key)" (click)="largeModal.show()">Düzenle</button>
+                              <button type="button" class="btn btn-success btn-square btn-block" (click)="modalOpen(item.key)" (click)="largeModal.show()"><i class="cil-pencil mr-2"></i>Düzenle</button>
                             </div>
                             <div class="col-6">
-                              <button type="button" class="btn btn-danger btn-square btn-block" (click)="deleteGroup(item.key)">Sil</button>
+                              <button type="button" class="btn btn-danger btn-square btn-block" (click)="deleteGroup(item.key)"><i class="cil-trash mr-2"></i>Sil</button>
                             </div>
                           </div>
                         </td>

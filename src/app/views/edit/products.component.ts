@@ -7,6 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 export class ProductsComponent implements OnInit {
   @ViewChild('largeModal') public largeModal: ModalDirective;
+  @ViewChild('warningModal') public warningModal: ModalDirective;
   key;
   name=null;
   price=null;
