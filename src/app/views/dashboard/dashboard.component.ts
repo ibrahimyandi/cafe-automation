@@ -3,13 +3,14 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { ExcelService } from '../../shared/services/excel.services';
 
 @Component({
-  templateUrl: 'dashboard.component.html'
+  templateUrl: 'Dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
   statistics = [];
   totalIncome = 0;
   totalStock = 0;
   stock = [];
+  sellProdSearch;
   search;
   filter(value){
     return value.filter((val) => {

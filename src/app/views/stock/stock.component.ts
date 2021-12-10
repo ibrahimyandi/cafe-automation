@@ -5,10 +5,11 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
-  templateUrl: 'stock.component.html'
+  templateUrl: 'Stock.component.html'
 })
 export class StockComponent implements OnInit {
   @ViewChild('largeModal') public largeModal: ModalDirective;
+  search;
   group;
   name;
   photo;

@@ -12,7 +12,7 @@
                 <span class="input-group-prepend">
                   <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
                 </span>
-                <input type="text" id="input1-group2" name="search1" class="form-control" placeholder="Ürün" [(ngModel)]="search1">
+                <input type="text" id="input1-group2" name="sellProdSearch" class="form-control" placeholder="Ürün" [(ngModel)]="sellProdSearch">
               </div>
                 </div>
             <div class="col-12 mt-4">
@@ -27,7 +27,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of statistics | filter:search1">
+                  <tr *ngFor="let item of statistics | filter:sellProdSearch">
                     <td>{{ item.name }}</td>
                     <td>{{ item.group }}</td>
                     <td>{{ item.price }}₺</td>

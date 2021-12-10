@@ -48,7 +48,16 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { environment } from '../environments/environment';
-
+export const firebase = {
+  apiKey: "AIzaSyBv0qaU_TlNwFozWZ8DyLs4PN4yPdDd-Ug",
+  authDomain: "cafe-automation.firebaseapp.com",
+  databaseURL: "https://cafe-automation-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "cafe-automation",
+  storageBucket: "cafe-automation.appspot.com",
+  messagingSenderId: "707903475595",
+  appId: "1:707903475595:web:ecd35fd872f3de5507e98e",
+  measurementId: "G-HV64N7GWZ3"
+};
 @NgModule({
   imports: [
     BrowserModule,
@@ -66,7 +75,7 @@ import { environment } from '../environments/environment';
     IconModule,
     FormsModule,
     IconSetModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(firebase),
     AngularFireDatabaseModule,
   ],
   declarations: [

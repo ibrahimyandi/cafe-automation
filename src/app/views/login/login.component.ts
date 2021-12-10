@@ -5,18 +5,15 @@ import { AuthService } from '../../shared/services/auth.services';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: 'login.component.html'
+  templateUrl: 'Login.component.html'
 })
 export class LoginComponent {
+  username;
   errorMessage = "Lütfen giriş yapınız.";
   constructor(private auth:AngularFireAuth, private router:Router,public authService: AuthService,){
   }
   login(email,password){
     this.authService.signIn(email,password);
   }
-  onKeydown(event,email,password) {
-    if (event.key === "Enter") {
-      this.authService.signIn(email,password);
-    }
-  }
+ 
 }

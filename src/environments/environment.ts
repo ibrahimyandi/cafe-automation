@@ -6,14 +6,4 @@
 
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: "AIzaSyBv0qaU_TlNwFozWZ8DyLs4PN4yPdDd-Ug",
-    authDomain: "cafe-automation.firebaseapp.com",
-    databaseURL: "https://cafe-automation-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "cafe-automation",
-    storageBucket: "cafe-automation.appspot.com",
-    messagingSenderId: "707903475595",
-    appId: "1:707903475595:web:ecd35fd872f3de5507e98e",
-    measurementId: "G-HV64N7GWZ3"
-  }
 };

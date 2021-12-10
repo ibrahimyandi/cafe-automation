@@ -9,6 +9,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild('largeModal') public largeModal: ModalDirective;
   @ViewChild('warningModal') public warningModal: ModalDirective;
   key;
+  searchProdList;
   name=null;
   price=null;
   group=null;
