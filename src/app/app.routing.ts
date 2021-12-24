@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 
-import { StockComponent } from './views/stock/stock.component';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
@@ -66,11 +65,11 @@ export const routes: Routes = [
       }
     ]
   },
-  { path: '**', component: P404Component }
+  {path:'**',redirectTo:'login',pathMatch:'full'}
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }) ],
+  imports: [ RouterModule.forRoot(routes, { useHash: true }) ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule {}

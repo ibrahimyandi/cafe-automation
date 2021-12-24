@@ -47,7 +47,7 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
-import { environment } from '../environments/environment';
+
 export const firebase = {
   apiKey: "AIzaSyBv0qaU_TlNwFozWZ8DyLs4PN4yPdDd-Ug",
   authDomain: "cafe-automation.firebaseapp.com",

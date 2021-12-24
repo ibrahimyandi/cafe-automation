@@ -5,10 +5,10 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <strong>Ürün ekle</strong> 
+              <strong>Ürün ekle / düzenle</strong> 
             </div>
             <div class="card-body">
               <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -20,7 +20,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün fiyatı</label>
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürünün satış fiyatı</label>
                   <div class="controls col-md-9">
                     <div class="input-prepend input-group">
                       <div class="input-group-prepend">
@@ -29,6 +29,31 @@
                       <input [(ngModel)]="price" name="price" id="appendedPrependedInput" class="form-control" size="16" type="number">
                       <div class="input-group-append">
                         <span class="input-group-text">.00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row" *ngIf="materialCount <= 0">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Maliyet fiyatı</label>
+                  <div class="controls col-md-9">
+                    <div class="input-prepend input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₺</span>
+                      </div>
+                      <input [(ngModel)]="prodCost" name="prodCost" id="appendedPrependedInput" class="form-control" size="16" type="number">
+                      <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün KDV oranı</label>
+                  <div class="controls col-md-9">
+                    <div class="input-prepend input-group">
+                      <input [(ngModel)]="kdv" name="kdv" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="{{this.modalDetail[3]}}">
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
                       </div>
                     </div>
                   </div>
@@ -50,15 +75,65 @@
                     <img src="{{photo}}" alt="..." class="img-thumbnail">
                   </div>
                 </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Üretilecek adet</label>
+                  <div class="controls col-md-9">
+                    <div class="input-prepend input-group">
+                      <input [(ngModel)]="prodCount" name="prodCount" id="appendedPrependedInput" class="form-control" size="16" type="number">
+                    </div>
+                  </div>
+                </div>  
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Kullanılacak malzeme sayısı</label>
+                  <div class="controls col-md-9">
+                    <div class="input-prepend input-group">
+                      <input [(ngModel)]="materialCount" (change)="materialChanged()" name="materialCount" id="appendedPrependedInput" class="form-control" size="16" type="number">
+                    </div>
+                  </div>
+                </div>
+                <table class="table table-bordered table-striped table-sm" *ngIf="materialCount > 0">
+                  <thead>
+                    <tr>
+                      <th>Malzeme adı</th>
+                      <th>Kullanılan miktar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let material of materialsList, let i = index">
+                      <td>{{materialsList[i].name}}
+                        <select id="select3" name="selectedMaterial" class="form-control form-control-sm" [(ngModel)]="materialsList[i].name" (ngModelChange)="selectMaterial(i,$event)">
+                          <ng-container *ngFor="let item of products">
+                            <option value="{{ item.payload.key }}***{{ item.payload.val().name }}" *ngIf="item.payload.val().group == 'malzeme'">{{ item.payload.val().name }}</option>
+                          </ng-container>
+                        </select>
+                      </td>
+                      <td>
+                        <input [(ngModel)]="materialsList[i].amount" name="materialCount" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="" (ngModelChange)="costUpdate()">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="form-group row" *ngIf="materialCount > 0">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün maliyeti</label>
+                  <div class="controls col-md-9">
+                    <div class="input-prepend input-group">
+                      <label class="col-form-label col-md-3" for="appendedPrependedInput">{{ this.prodCost | number : '.2-2' }}₺</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row" *ngIf="materialCount > 0">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Adet maliyeti</label>
+                  <div class="controls col-md-9">
+                    <label class="col-form-label" for="appendedPrependedInput">{{ this.prodCost / prodCount | number : '.2-2' }}₺</label>
+                  </div>
+                </div>  
               </form>
             </div>
             <div class="card-footer">
-              <button [disabled]="name==null || price==null || group==null || photo==null || name=='' || price=='' || group=='' || photo==''" type="submit" class="btn btn-sm btn-primary" (click)="addProduct(name, price, group, photo)"><i class="fa fa-dot-circle-o"></i> Ekle</button>
+              <button [disabled]="name==null || price==null || kdv < 0 || materialCount < 0 || materialCount == null || kdv == null || group==null || photo==null || name=='' || price=='' || group=='' || photo==''" type="submit" class="btn btn-sm btn-primary" (click)="addProduct(name, price, prodCost, kdv, group, photo)"><i class="fa fa-dot-circle-o"></i> Ekle</button>
               <button type="reset" class="btn btn-sm btn-danger" (click)="clear()"><i class="fa fa-ban"></i> Temizle</button>
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
         </div>
       </div>
       <div class="row">
@@ -84,6 +159,8 @@
                         <th>Ürün adı</th>
                         <th>Ürün gurubu</th>
                         <th>Fiyatı</th>
+                        <th>KDV oranı</th>
+                        <th>KDV dahil fiyatı</th>
                         <th>Stok</th>
                         <th>Ayarlar</th>
                       </tr>
@@ -93,7 +170,9 @@
                         <td>{{ item.payload.val().name }}</td>
                         <td>{{ item.payload.val().group }}</td>
                         <td>{{ item.payload.val().price }}₺</td>
-                        <td>{{ item.payload.val().stock  }}</td>
+                        <td>{{ item.payload.val().kdv }}</td>
+                        <td>{{ item.payload.val().kdvPrice | number : '.2-2' }}₺</td>
+                        <td>{{ item.payload.val().stock | number : '.2-2' }}</td>
                         <td>
                           <div class="row">
                             <div class="col-6">
@@ -134,20 +213,45 @@
               <div class="form-group row">
                 <label class="col-md-3 col-form-label" for="text-input">Ürün adı</label>
                 <div class="col-md-9">
-                  <input [(ngModel)]="name" name="name" type="text" id="text-input" class="form-control" placeholder="{{this.modalDetail[1]}}">
+                  <input [(ngModel)]="name" name="name" type="text" id="text-input" class="form-control" placeholder="{{this.name}}">
                   <span class="help-block"></span>
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün fiyatı</label>
+                <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürünün satış fiyatı</label>
                 <div class="controls col-md-9">
                   <div class="input-prepend input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">₺</span>
                     </div>
-                    <input [(ngModel)]="price" name="price" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="{{this.modalDetail[3]}}">
+                    <input [(ngModel)]="price" name="price" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="{{this.price}}">
                     <div class="input-group-append">
                       <span class="input-group-text">.00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="materialCount <= 0">
+                <label class="col-form-label col-md-3" for="appendedPrependedInput">Maliyet fiyatı</label>
+                <div class="controls col-md-9">
+                  <div class="input-prepend input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">₺</span>
+                    </div>
+                    <input [(ngModel)]="prodCost" name="prodCost" id="appendedPrependedInput" class="form-control" size="16" type="number">
+                    <div class="input-group-append">
+                      <span class="input-group-text">.00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün KDV oranı</label>
+                <div class="controls col-md-9">
+                  <div class="input-prepend input-group">
+                    <input [(ngModel)]="kdv" name="kdv" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="{{this.kdv}}">
+                    <div class="input-group-append">
+                      <span class="input-group-text">%</span>
                     </div>
                   </div>
                 </div>
@@ -163,10 +267,60 @@
               <div class="form-group row">
                 <label class="col-md-3 col-form-label" for="file-input">Ürün fotoğrafı</label>
                 <div class="col-md-6">
-                  <input [(ngModel)]="photo" name="photo" type="text" id="text-input" class="form-control" placeholder="{{this.modalDetail[2]}}">
+                  <input [(ngModel)]="photo" name="photo" type="text" id="text-input" class="form-control" placeholder="{{this.photo}}">
                 </div>
                 <div class="col-md-3">
                   <img src="{{photo}}" alt="..." class="img-thumbnail">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-form-label col-md-3" for="appendedPrependedInput">Üretilecek adet</label>
+                <div class="controls col-md-9">
+                  <div class="input-prepend input-group">
+                    <input [(ngModel)]="prodCount" name="prodCount" id="appendedPrependedInput" class="form-control" size="16" type="number">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-form-label col-md-3" for="appendedPrependedInput">Kullanılacak malzeme sayısı</label>
+                <div class="controls col-md-9">
+                  <div class="input-prepend input-group">
+                    <input [(ngModel)]="materialCount" (change)="materialChanged()" name="materialCount" id="appendedPrependedInput" class="form-control" size="16" type="number">
+                  </div>
+                </div>
+              </div>
+              <table class="table table-bordered table-striped table-sm" *ngIf="materialCount != 0">
+                <thead>
+                  <tr>
+                    <th>Malzeme adı</th>
+                    <th>Kullanılan miktar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let material of materialsList, let i = index">
+                    <td>{{materialsList[i].name}}
+                      <select id="select3" class="form-control form-control-sm" [(ngModel)]="materialsList[i].name" name="materialsList[i].name" (ngModelChange)="selectMaterial(i,$event)">
+                        <ng-container *ngFor="let item of products">
+                          <option value="{{ item.payload.key }}***{{ item.payload.val().name }}" *ngIf="item.payload.val().group == 'malzeme'">{{ item.payload.val().name }}</option>
+                        </ng-container>
+                      </select> 
+                    </td>
+                    <td>
+                      <input [(ngModel)]="materialsList[i].amount" name="{{materialsList[i].amount}}" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="" (ngModelChange)="costUpdate()">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="form-group row" *ngIf="materialCount > 0">
+                <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün maliyeti</label>
+                <div class="controls col-md-9">
+                  <label class="col-form-label" for="appendedPrependedInput">{{ this.prodCost | number : '.2-2' }}₺</label>
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="materialCount > 0">
+                <label class="col-form-label col-md-3" for="appendedPrependedInput">Adet maliyeti</label>
+                <div class="controls col-md-9">
+                  <label class="col-form-label" for="appendedPrependedInput">{{ this.prodCost / prodCount | number : '.2-2' }}₺</label>
                 </div>
               </div>
             </form>
@@ -174,8 +328,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Vazgeç</button>
-        <button type="button" class="btn btn-primary" (click)="editProduct(name, price, group, photo)">Değişiklikleri kaydet</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Vazgeç</button>
+        <button type="button" class="btn btn-primary" (click)="editProduct(name, price, prodCost, kdv, group, photo)">Değişiklikleri kaydet</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

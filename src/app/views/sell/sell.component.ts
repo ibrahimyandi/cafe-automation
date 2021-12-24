@@ -6,40 +6,37 @@ import { AngularFireDatabase } from '@angular/fire/database';
 })
 
 export class SellComponent implements OnInit {
-  groups;
+  groups = [];
   products =[];
   group;
   name;
   photo;
   price;
   stocks;
-  selected = [];
-  selectedProd = [];
   totalPrice = 0;
   alinanPara;
   datestring;
+
+  selectedProd = [];
   selectExist =[];
+  
   exist = false;
-  counter=1;
   faturaTarih;
   receiptId;
+  cost;
+  kdvPrice
   receiptExists = false;
   ngOnInit(){}
+  
   constructor(private db:AngularFireDatabase){
     db.list('/groups').valueChanges().subscribe(i => {
       this.groups = i;
+      this.groups.sort((a, b) => {
+        if (a.name < b.name) return -1
+        return a.name > b.name ? 1 : 0
+      })
     });
-
-    db.list('/selected').valueChanges().subscribe(i => {
-      this.totalPrice = 0;
-      this.selectedProd = i;
-      this.selectedProd.forEach(element => {
-        this.totalPrice += element.price * element.count;
-      });
-    });
-      this.db.list("/selected").snapshotChanges().forEach(x=>{
-      this.selectExist = x;
-    })
+    
     db.list("/products").snapshotChanges().forEach(i=>{
       this.products = i;
     });
@@ -53,72 +50,76 @@ export class SellComponent implements OnInit {
         }
       });
     })
-
-  }
-  selectProduct(key){
-    this.counter = 1;
-    this.products.forEach(element => {
-      if(key == element.key){
-        this.group = element.payload.val().group;
-        this.name = element.payload.val().name;
-        this.photo = element.payload.val().photo;
-        this.price = element.payload.val().price;
-        this.stocks = element.payload.val().stock;
-      }
-    });
     
-    const date = new Date();
-    this.datestring = date.toLocaleString('tr-TR');
-   
-    this.selectExist.forEach(i=>{
-      if(key == i.key){
-        this.exist = true;
-        this.counter = i.payload.val().count;
-      }
-    })
-    if(!this.exist){
-      this.db.database.ref("/selected/"+key).update({name:this.name,group:this.group,price:this.price,stock:this.stocks,count:this.counter,date:this.datestring});
+  }
+  countDecrease(index){
+    this.selectedProd[index].count--;
+    this.totalPrice -= this.selectedProd[index].data.kdvPrice;
+    if(this.selectedProd[index].count<=0){
+      this.selectedProd.splice(index,1);
     }
     else{
-      this.counter +=1;
-      this.db.database.ref("/selected/"+key).update({name:this.name,group:this.group,price:this.price,stock:this.stocks,count:this.counter,date:this.datestring});
+      this.selectedProd[index].totalPrice = this.selectedProd[index].count * this.selectedProd[index].data.kdvPrice;
+    }
+    if(this.selectedProd.length == 0)
+      this.totalPrice = 0;
+  }
+  selectProduct(key){
+    var iter = 0;
+    this.selectedProd.forEach(i=>{
+      if(key == i.key){
+        this.exist = true;
+        this.selectedProd[iter].count += 1;
+        this.selectedProd[iter].totalPrice = this.selectedProd[iter].count * this.selectedProd[iter].data.kdvPrice;
+        this.totalPrice += this.selectedProd[iter].data.kdvPrice;
+      }
+      iter++;
+    })
+    if(this.exist==false){
+      this.products.forEach(element => { //TODO path ile veri ulaş.
+        if(key == element.key){
+          this.selectedProd.push({data:element.payload.val(), count:1, key:element.key, totalPrice: element.payload.val().kdvPrice,date:0});
+          this.totalPrice += element.payload.val().kdvPrice;
+        }
+      });
     }
     this.exist = false;
-    //this.totalPrice += parseInt(this.price);
   }
   key;
   sellCount;
-  sell(){ //printer width = 80mm
+  sell(){
+    this.totalPrice = 0;
     const date = new Date();
     this.faturaTarih = date.toLocaleString('tr-TR');
     this.receiptId++;
     var newWin = window.open("");
     newWin.document.write("<!DOCTYPE html><html lang='en'> <head> <meta charset='utf-8'> <title>SKS Fatura</title> <style> body{ width: 80mm; position: relative; display: block; margin: 0px; font-size: 12px; font-weight: bold; text-transform: uppercase; } .container{ margin: 10px; } .title{ text-align: center; margin-top: 4px; } span{ width: 100px; display: inline-block; } hr.dashed { border-top: 1px dashed black; } th{ width: 80px; text-align: left; } .bodyFooter{ position: relative; } .totalText{ width: 81%; } .total{ float: right; width: 19%; } .footer{ } </style> </head> <body> <div class='container'> <div class='head'> <div class='title'>SKS</div> <br> <div><span>PEŞİN MÜŞTERİ</span>&nbsp;&nbsp;</div>");
     newWin.document.write("</div> <div><span>TARİH</span>:&nbsp;&nbsp;"+this.faturaTarih+"</div><div><span>FİŞ NO</span>:&nbsp;&nbsp;"+this.receiptId+"</div> </div> <hr class='dashed'> <div class='body'> <table> <tr> <th style='width: 40%;'>ÜRÜN ADI</th> <th style='width: 0px;'></th><th style='width: 0px;'></th> <th>FİYAT</th> <th>ADET</th> <th>TUTAR</th> </tr>")
-    this.selectExist.forEach(x=>{
-      var total = x.payload.val().price * x.payload.val().count;
+    this.selectedProd.forEach(x=>{
+      this.totalPrice += x.totalPrice;
       newWin.document.write("<tr>");
-      newWin.document.write("<td colspan='3'>"+x.payload.val().name+"</td>");
-      newWin.document.write("<td>"+x.payload.val().price+"&nbsp;₺</td>");
-      newWin.document.write("<td>"+x.payload.val().count+"</td>");
-      newWin.document.write("<td>"+total+"&nbsp;₺</td>");
+      newWin.document.write("<td colspan='3'>"+x.data.name+"</td>");
+      newWin.document.write("<td>"+x.data.kdvPrice.toFixed(2)+"&nbsp;₺</td>");
+      newWin.document.write("<td>"+x.count+"</td>");
+      newWin.document.write("<td>"+x.totalPrice.toFixed(2)+"&nbsp;₺</td>");
       newWin.document.write("</tr>");
-      var sellStock = parseInt(x.payload.val().stock) - parseInt(x.payload.val().count);
+      x.date = this.faturaTarih;
+      var sellStock = parseFloat(x.data.stock) - parseFloat(x.count);
       this.db.database.ref("/products/"+x.key).update({stock:sellStock});
-      this.db.list("/statistics").push({name:x.payload.val().name,group:x.payload.val().group, price:x.payload.val().price, count:x.payload.val().count, date:x.payload.val().date});
+      this.db.list("/statistics").push({name: x.data.name, group: x.data.group, kdvPrice: x.data.kdvPrice, kdvCost: x.data.kdvCost, count: x.count, date: x.date});
     })
     newWin.document.write("</table> <hr class='dashed'> <div class='bodyFooter'> <span class='totalText'>TOPLAM TUTAR</span>");
-    newWin.document.write("<span class='total'>"+this.totalPrice+"&nbsp;₺</span>");
+    newWin.document.write("<span class='total'>"+this.totalPrice.toFixed(2)+"&nbsp;₺</span>");
     newWin.document.write("</div> </div> <hr class='dashed'> <div class='footer'> </div> </div> </body></html>");
     newWin.print();  
-    //newWin.close();
-    this.db.list("/selected").remove();
+    newWin.close();
+    this.totalPrice = 0;  
+    this.selectedProd.splice(0,this.selectedProd.length);
     this.db.list("/receipt").set('id', this.receiptId);
-    //this.totalPrice = 0;
     this.alinanPara = 0;
   }
   cancel(){
-    this.db.list("/selected").remove();
+    this.selectedProd.splice(0,this.selectedProd.length);
     this.totalPrice = 0;
     this.alinanPara = 0;
   }

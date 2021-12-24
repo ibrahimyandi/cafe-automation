@@ -23,7 +23,6 @@ export class DefaultLayoutComponent {
               navItems.splice(this.i,1);
               if(this.user == "sales@sks.com"){
                 router.navigate(["sell"]);
-                navItems.splice(this.i,1)
               }
             }
             if(this.user == "stock@sks.com"){

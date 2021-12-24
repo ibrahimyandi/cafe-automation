@@ -22,7 +22,9 @@
                     <th>Ürün adı</th>
                     <th>Grup</th>
                     <th>Fiyat</th>
+                    <th>Maliyet</th>
                     <th>Adet</th>
+                    <th>Kâr</th>
                     <th>Tarih</th>
                   </tr>
                 </thead>
@@ -30,8 +32,10 @@
                   <tr *ngFor="let item of statistics | filter:sellProdSearch">
                     <td>{{ item.name }}</td>
                     <td>{{ item.group }}</td>
-                    <td>{{ item.price }}₺</td>
+                    <td>{{ item.kdvPrice | number : '.2-2' }}₺</td>
+                    <td>{{ item.kdvCost | number : '.2-2' }}₺</td>
                     <td>{{ item.count }}</td>
+                    <td>{{ (item.kdvPrice - item.kdvCost) * item.count | number : '.2-2' }}₺</td>
                     <td>{{ item.date }}</td>
                   </tr>
                 </tbody>
@@ -41,7 +45,7 @@
         </div>
         <div class="card-footer">
           <div class="row">
-            <div class="col-6">Toplam satış tutarı: {{ totalIncome }}₺</div>
+            <div class="col-6">Toplam Kâr: {{ totalIncome | number : '.2-2' }}₺</div>
             <div class="col-6 float-right"><button (click)="clearAndExport('statistics')" type="button" class="btn btn-success btn-square float-right">Temizle ve excele aktar</button></div>
           </div>
       </div>
@@ -66,17 +70,23 @@
             <table class="table table-bordered table-striped table-sm" id="stockProd">
               <thead>
                 <tr>
+                  <th>İşlem</th>
                   <th>Ürün adı</th>
                   <th>Grup</th>
+                  <th>Maliyet</th>
                   <th>Adet</th>
+                  <th>Toplam tutar</th>
                   <th>Tarih</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of stock | filter:search">
+                  <td>{{ item.process }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.group }}</td>
+                  <td>{{ item.kdvCost | number : '.2-2' }}₺</td>
                   <td>{{ item.stock }}</td>
+                  <td>{{ item.kdvCost * item.stock | number : '.2-2' }}₺</td>
                   <td>{{ item.date }}</td>
                 </tr>
               </tbody>
@@ -86,11 +96,17 @@
       </div>
       <div class="card-footer">
         <div class="row">
-          <div class="col-6">Toplam eklenen stock: {{ totalStock }} adet</div>
+          <div class="col-6">Stok eklenen ürün maliyeti toplamı: {{ totalCost | number : '.2-2' }}₺</div>
           <div class="col-6"><button (click)="clearAndExport('stock')" type="button" class="btn btn-success btn-square float-right">Temizle ve excele aktar</button></div>
         </div>
       </div>
     </div>
+    <div class="card">
+      <div class="cord-body">
+        <div class="alert alert-secondary" style="margin-bottom: 0px;" role="alert">
+          <div>Genel durum : <span [ngStyle]="{'color': totalIncome - totalCost > 0? 'green' : 'red'}">{{ totalIncome - totalCost | number : '.2-2' }}₺</span></div>
+        </div>
+      </div>
+    </div>
   </div>
-
 </div>

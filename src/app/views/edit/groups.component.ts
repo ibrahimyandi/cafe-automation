@@ -8,20 +8,25 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class GroupsComponent {
   @ViewChild('largeModal') public largeModal: ModalDirective;
   groups;
+  products;
   name;
-  modalDetail;
+  oldName;
   keys;
   groupName = null;
   constructor(private db: AngularFireDatabase,) {
     db.list('/groups').snapshotChanges().forEach(i=>{
       this.groups = i;
     });
+    db.list('/products').snapshotChanges().forEach(i=>{
+      this.products = i;
+    });
   }
   modalOpen(key){
-    this.db.list('/groups/'+key).valueChanges().forEach(x=> {
-      this.modalDetail = x;
-      this.name = x[0];
-    });
+    this.groups.forEach(x=>{
+      if(x.key == key)
+        this.name = x.payload.val().name;
+    })
+    this.oldName = this.name;
     this.keys = key;
   }
   addGroup(name){
@@ -34,6 +39,10 @@ export class GroupsComponent {
     this.db.list('/groups/'+key).remove();
   }
   editGroup(name){
+    this.products.forEach(element => {
+      if(this.oldName == element.payload.val().group)
+        this.db.database.ref("/products/"+element.key).update({group:name});
+    });
     this.db.database.ref('/groups/'+this.keys).update({name:name});
     this.largeModal.hide();
   }

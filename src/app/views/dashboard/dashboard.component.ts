@@ -8,7 +8,7 @@ import { ExcelService } from '../../shared/services/excel.services';
 export class DashboardComponent implements OnInit {
   statistics = [];
   totalIncome = 0;
-  totalStock = 0;
+  totalCost = 0;
   stock = [];
   sellProdSearch;
   search;
@@ -22,13 +22,16 @@ export class DashboardComponent implements OnInit {
      db.list('/statistics').valueChanges().subscribe(i => {
       this.statistics = i.reverse();
       this.statistics.forEach(element => {
-        this.totalIncome += element.count * element.price;
+        this.totalIncome += (element.kdvPrice - element.kdvCost) * element.count;
       });
     });
     db.list('/stock').valueChanges().subscribe(i => {
       this.stock = i.reverse();
       this.stock.forEach(element => {
-        this.totalStock += element.stock;
+        if(element.process == "ekleme")
+          this.totalCost += element.kdvCost * element.stock;
+        else
+          this.totalCost -= element.kdvCost * element.stock;
       });
     });
   }
@@ -51,7 +54,7 @@ export class DashboardComponent implements OnInit {
     else{
       this.excel.exportAsExcelFile(this.stock,"stock");    
       this.db.list("stock").remove();
-      this.totalStock = 0;
+      this.totalCost = 0;
     }
   }
   ngOnInit(){}

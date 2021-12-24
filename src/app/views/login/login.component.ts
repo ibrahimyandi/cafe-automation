@@ -9,6 +9,7 @@ import { AuthService } from '../../shared/services/auth.services';
 })
 export class LoginComponent {
   username;
+  password;
   errorMessage = "Lütfen giriş yapınız.";
   constructor(private auth:AngularFireAuth, private router:Router,public authService: AuthService,){
   }
