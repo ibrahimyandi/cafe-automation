@@ -4,17 +4,7 @@
   [navbarBrandMinimized]="{src: 'https://upload.wikimedia.org/wikipedia/tr/f/f6/Ahi_Evran_%C3%9Cniversitesi_logo.png', width: 30, height: 30, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'"
   [asideMenuToggler]="''">
-  <ul class="nav navbar-nav d-md-down-none">
-    <li class="nav-item px-3" *ngIf="user=='admin@sks.com'">
-      <a class="nav-link" href="./#/dashboard">İstatistik</a>
-    </li>
-    <li class="nav-item px-3">
-      <a class="nav-link" href="./#/stock">Stok</a>
-    </li>
-    <li class="nav-item px-3" *ngIf="user=='sales@sks.com' || user=='admin@sks.com'">
-      <a class="nav-link" href="./#/sell">Satış</a>
-    </li>
-  </ul>
+
   <ul class="nav navbar-nav ml-auto">
     <li class="mr-4">{{user}}</li>
     <li><i class="cil-account-logout mr-4" (click)="authService.signOut()"></i></li>

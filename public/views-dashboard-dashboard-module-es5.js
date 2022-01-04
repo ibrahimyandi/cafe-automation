@@ -22,7 +22,7 @@
       /* harmony default export */
 
 
-      __webpack_exports__["default"] = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          <i class=\"fa fa-align-justify\"></i> Satılan Ürünler\n        </div>\n        <div class=\"card-body\">\n          <div class=\"row\">\n            <div class=\"col-4\">\n              <div class=\"input-group\">\n                <span class=\"input-group-prepend\">\n                  <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-search\"></i> Ara</button>\n                </span>\n                <input type=\"text\" id=\"input1-group2\" name=\"sellProdSearch\" class=\"form-control\" placeholder=\"Ürün\" [(ngModel)]=\"sellProdSearch\">\n              </div>\n                </div>\n            <div class=\"col-12 mt-4\">\n              <table class=\"table table-bordered table-striped table-sm\" id=\"sellProd\">\n                <thead>\n                  <tr>\n                    <th>Ürün adı</th>\n                    <th>Grup</th>\n                    <th>Fiyat</th>\n                    <th>Maliyet</th>\n                    <th>Adet</th>\n                    <th>Kâr</th>\n                    <th>Tarih</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of statistics | filter:sellProdSearch\">\n                    <td>{{ item.name }}</td>\n                    <td>{{ item.group }}</td>\n                    <td>{{ item.kdvPrice | number : '.2-2' }}₺</td>\n                    <td>{{ item.kdvCost | number : '.2-2' }}₺</td>\n                    <td>{{ item.count }}</td>\n                    <td>{{ (item.kdvPrice - item.kdvCost) * item.count | number : '.2-2' }}₺</td>\n                    <td>{{ item.date }}</td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n        <div class=\"card-footer\">\n          <div class=\"row\">\n            <div class=\"col-6\">Toplam Kâr: {{ totalIncome | number : '.2-2' }}₺</div>\n            <div class=\"col-6 float-right\"><button (click)=\"clearAndExport('statistics')\" type=\"button\" class=\"btn btn-success btn-square float-right\">Temizle ve excele aktar</button></div>\n          </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"col-lg-12\">\n    <div class=\"card\">\n      <div class=\"card-header\">\n        <i class=\"fa fa-align-justify\"></i> Eklenen Stoklar\n      </div>\n      <div class=\"card-body\">\n        <div class=\"row\">\n          <div class=\"col-4\">\n            <div class=\"input-group\">\n              <span class=\"input-group-prepend\">\n                <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-search\"></i> Ara</button>\n              </span>\n              <input type=\"text\" id=\"input1-group2\"  [(ngModel)]=\"search\" name=\"search\" class=\"form-control\" placeholder=\"Ürün\">\n            </div>\n              </div>\n          <div class=\"col-12 mt-4\">\n            <table class=\"table table-bordered table-striped table-sm\" id=\"stockProd\">\n              <thead>\n                <tr>\n                  <th>İşlem</th>\n                  <th>Ürün adı</th>\n                  <th>Grup</th>\n                  <th>Maliyet</th>\n                  <th>Adet</th>\n                  <th>Toplam tutar</th>\n                  <th>Tarih</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let item of stock | filter:search\">\n                  <td>{{ item.process }}</td>\n                  <td>{{ item.name }}</td>\n                  <td>{{ item.group }}</td>\n                  <td>{{ item.kdvCost | number : '.2-2' }}₺</td>\n                  <td>{{ item.stock }}</td>\n                  <td>{{ item.kdvCost * item.stock | number : '.2-2' }}₺</td>\n                  <td>{{ item.date }}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n      <div class=\"card-footer\">\n        <div class=\"row\">\n          <div class=\"col-6\">Stok eklenen ürün maliyeti toplamı: {{ totalCost | number : '.2-2' }}₺</div>\n          <div class=\"col-6\"><button (click)=\"clearAndExport('stock')\" type=\"button\" class=\"btn btn-success btn-square float-right\">Temizle ve excele aktar</button></div>\n        </div>\n      </div>\n    </div>\n    <div class=\"card\">\n      <div class=\"cord-body\">\n        <div class=\"alert alert-secondary\" style=\"margin-bottom: 0px;\" role=\"alert\">\n          <div>Genel durum : <span [ngStyle]=\"{'color': totalIncome - totalCost > 0? 'green' : 'red'}\">{{ totalIncome - totalCost | number : '.2-2' }}₺</span></div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n";
+      __webpack_exports__["default"] = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          <i class=\"fa fa-align-justify\"></i> Satılan Ürünler\n        </div>\n        <div class=\"card-body\">\n          <div class=\"row\">\n            <div class=\"col-4\">\n              <div class=\"input-group\">\n                <span class=\"input-group-prepend\">\n                  <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-search\"></i> Ara</button>\n                </span>\n                <input type=\"text\" id=\"input1-group2\" name=\"sellProdSearch\" class=\"form-control\" placeholder=\"Ürün\" [(ngModel)]=\"sellProdSearch\">\n              </div>\n                </div>\n            <div class=\"col-12 mt-4\">\n              <table class=\"table table-bordered table-striped table-sm\" id=\"sellProd\">\n                <thead>\n                  <tr>\n                    <th>Ürün adı</th>\n                    <th>Grup</th>\n                    <th>Fiyat</th>\n                    <th>Maliyet</th>\n                    <th>Adet</th>\n                    <th>Kâr</th>\n                    <th>Tarih</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of statistics | filter:sellProdSearch\">\n                    <td>{{ item.name }}</td>\n                    <td>{{ item.group }}</td>\n                    <td>{{ item.kdvPrice | number : '.2-2' }}₺</td>\n                    <td>{{ item.cost | number : '.2-2' }}₺</td>\n                    <td>{{ item.count }}</td>\n                    <td>{{ (item.kdvPrice - item.cost) * item.count | number : '.2-2' }}₺</td>\n                    <td>{{ item.date }}</td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n        <div class=\"card-footer\">\n          <div class=\"row\">\n            <div class=\"col-6\">Toplam Kâr: {{ totalIncome | number : '.2-2' }}₺</div>\n            <div class=\"col-6 float-right\"><button (click)=\"clearAndExport('statistics')\" type=\"button\" class=\"btn btn-success btn-square float-right\">Temizle ve excele aktar</button></div>\n          </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"col-lg-12\">\n    <div class=\"card\">\n      <div class=\"card-header\">\n        <i class=\"fa fa-align-justify\"></i> Eklenen Stoklar\n      </div>\n      <div class=\"card-body\">\n        <div class=\"row\">\n          <div class=\"col-4\">\n            <div class=\"input-group\">\n              <span class=\"input-group-prepend\">\n                <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-search\"></i> Ara</button>\n              </span>\n              <input type=\"text\" id=\"input1-group2\"  [(ngModel)]=\"search\" name=\"search\" class=\"form-control\" placeholder=\"Ürün\">\n            </div>\n              </div>\n          <div class=\"col-12 mt-4\">\n            <table class=\"table table-bordered table-striped table-sm\" id=\"stockProd\">\n              <thead>\n                <tr>\n                  <th>İşlem</th>\n                  <th>Ürün adı</th>\n                  <th>Grup</th>\n                  <th>Maliyet</th>\n                  <th>Adet</th>\n                  <th>Toplam maliyet</th>\n                  <th>Tarih</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let item of stock | filter:search\">\n                  <td>{{ item.process }}</td>\n                  <td>{{ item.name }}</td>\n                  <td>{{ item.group }}</td>\n                  <td>{{ item.cost | number : '.2-2' }}₺</td>\n                  <td>{{ item.stock }}</td>\n                  <td>{{ item.cost * item.stock | number : '.2-2' }}₺</td>\n                  <td>{{ item.date }}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n      <div class=\"card-footer\">\n        <div class=\"row\">\n          <div class=\"col-6\">Stok eklenen ürün maliyeti toplamı: {{ totalCost | number : '.2-2' }}₺</div>\n          <div class=\"col-6\"><button (click)=\"clearAndExport('stock')\" type=\"button\" class=\"btn btn-success btn-square float-right\">Temizle ve excele aktar</button></div>\n        </div>\n      </div>\n    </div>\n    <div class=\"card\">\n      <div class=\"cord-body\">\n        <div class=\"alert alert-secondary\" style=\"margin-bottom: 0px;\" role=\"alert\">\n          <div>Genel durum : <span [ngStyle]=\"{'color': totalIncome - totalCost > 0? 'green' : 'red'}\">{{ totalIncome - totalCost | number : '.2-2' }}₺</span></div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n";
       /***/
     },
 
@@ -287,31 +287,53 @@
       var _shared_services_excel_services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
       /*! ../../shared/services/excel.services */
       "SqW2");
+      /* harmony import */
+
+
+      var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      /*! @angular/fire/auth */
+      "VRCc");
+      /* harmony import */
+
+
+      var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      /*! @angular/router */
+      "iInd");
 
       var DashboardComponent = /*#__PURE__*/function () {
-        function DashboardComponent(db, excel) {
+        function DashboardComponent(db, excel, auth, router) {
           var _this = this;
 
           _classCallCheck(this, DashboardComponent);
 
           this.db = db;
           this.excel = excel;
+          this.router = router;
           this.statistics = [];
           this.totalIncome = 0;
           this.totalCost = 0;
           this.stock = [];
-          db.list('/statistics').valueChanges().subscribe(function (i) {
+          auth.onAuthStateChanged(function (user) {
+            if (user) {
+              _this.user = user.email;
+
+              if (_this.user.search("user") != -1) {
+                router.navigate(["/stock"]);
+              }
+            }
+          });
+          db.list('/statistics/sold').valueChanges().subscribe(function (i) {
             _this.statistics = i.reverse();
 
             _this.statistics.forEach(function (element) {
-              _this.totalIncome += (element.kdvPrice - element.kdvCost) * element.count;
+              _this.totalIncome += (element.kdvPrice - element.cost) * element.count;
             });
           });
-          db.list('/stock').valueChanges().subscribe(function (i) {
+          db.list('/statistics/stock').valueChanges().subscribe(function (i) {
             _this.stock = i.reverse();
 
             _this.stock.forEach(function (element) {
-              if (element.process == "ekleme") _this.totalCost += element.kdvCost * element.stock;else _this.totalCost -= element.kdvCost * element.stock;
+              _this.totalCost += element.cost * element.stock;
             });
           });
         }
@@ -360,12 +382,16 @@
           type: _angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"]
         }, {
           type: _shared_services_excel_services__WEBPACK_IMPORTED_MODULE_4__["ExcelService"]
+        }, {
+          type: _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__["AngularFireAuth"]
+        }, {
+          type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]
         }];
       };
 
       DashboardComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
         template: _raw_loader_Dashboard_component_html__WEBPACK_IMPORTED_MODULE_1__["default"]
-      }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"], _shared_services_excel_services__WEBPACK_IMPORTED_MODULE_4__["ExcelService"]])], DashboardComponent);
+      }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"], _shared_services_excel_services__WEBPACK_IMPORTED_MODULE_4__["ExcelService"], _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__["AngularFireAuth"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]])], DashboardComponent);
       /***/
     }
   }]);

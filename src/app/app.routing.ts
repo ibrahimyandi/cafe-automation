@@ -45,12 +45,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'stock',
-        loadChildren: () => import('./views/stock/stock.module').then(m => m.stockModule),
-        canActivate: [AuthGuard] 
-      },
-      {
-        path: 'sell',
-        loadChildren: () => import('./views/sell/sell.module').then(m => m.sellModule),
+        loadChildren: () => import('./views/stock/stock.module').then(m => m.StockModule),
         canActivate: [AuthGuard] 
       },
       {
@@ -59,8 +54,33 @@ export const routes: Routes = [
         canActivate: [AuthGuard] 
       },
       {
-        path: 'edit',
-        loadChildren: () => import('./views/edit/theme.module').then(m => m.ThemeModule),
+        path: 'edit/products',
+        loadChildren: () => import('./views/products/products.module').then(m => m.ProductsModule),
+        canActivate: [AuthGuard] 
+      },
+      {
+        path: 'edit/groups',
+        loadChildren: () => import('./views/groups/groups.module').then(m => m.GroupsModule),
+        canActivate: [AuthGuard] 
+      },
+      {
+        path: 'cafe1/sales',
+        loadChildren: () => import('./views/cafe1/sales/sales.module').then(m => m.SalesModule),
+        canActivate: [AuthGuard] 
+      },
+      {
+        path: 'cafe1/store',
+        loadChildren: () => import('./views/cafe1/store/store.module').then(m => m.StoreModule),
+        canActivate: [AuthGuard] 
+      },
+      {
+        path: 'cafe2/sales',
+        loadChildren: () => import('./views/cafe2/sales/sales.module').then(m => m.SalesModule),
+        canActivate: [AuthGuard] 
+      },
+      {
+        path: 'cafe2/store',
+        loadChildren: () => import('./views/cafe2/store/store.module').then(m => m.StoreModule),
         canActivate: [AuthGuard] 
       }
     ]

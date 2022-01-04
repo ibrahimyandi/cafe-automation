@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { ExcelService } from '../../shared/services/excel.services';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: 'Dashboard.component.html'
@@ -10,6 +12,7 @@ export class DashboardComponent implements OnInit {
   totalIncome = 0;
   totalCost = 0;
   stock = [];
+  user;
   sellProdSearch;
   search;
   filter(value){
@@ -18,20 +21,26 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  constructor(private db:AngularFireDatabase,private excel:ExcelService){
-     db.list('/statistics').valueChanges().subscribe(i => {
+  constructor(private db:AngularFireDatabase,private excel:ExcelService,auth:AngularFireAuth,private router:Router){
+    auth.onAuthStateChanged((user)=>{
+      if(user){
+        this.user = user.email;
+        if(this.user.search("user") != -1){
+          router.navigate(["/stock"]);
+        }
+      }
+    })
+
+     db.list('/statistics/sold').valueChanges().subscribe(i => {
       this.statistics = i.reverse();
       this.statistics.forEach(element => {
-        this.totalIncome += (element.kdvPrice - element.kdvCost) * element.count;
+        this.totalIncome += (element.kdvPrice - element.cost) * element.count;
       });
     });
-    db.list('/stock').valueChanges().subscribe(i => {
+    db.list('/statistics/stock').valueChanges().subscribe(i => {
       this.stock = i.reverse();
       this.stock.forEach(element => {
-        if(element.process == "ekleme")
-          this.totalCost += element.kdvCost * element.stock;
-        else
-          this.totalCost -= element.kdvCost * element.stock;
+        this.totalCost += element.cost * element.stock;
       });
     });
   }

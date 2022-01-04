@@ -33,7 +33,12 @@ export class AuthService {
         return this.auth.signInWithEmailAndPassword(email, password)
         .then((result) => {
         this.ngZone.run(() => {
-            this.router.navigate(['dashboard']);
+            if(email == "admin@sks.com"){
+              this.router.navigate(['dashboard']);
+            }
+            else{
+              this.router.navigate(['stock']);
+            }
         });
         }).catch((error) => {
         window.alert(error.message)

@@ -33,9 +33,9 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.group }}</td>
                     <td>{{ item.kdvPrice | number : '.2-2' }}₺</td>
-                    <td>{{ item.kdvCost | number : '.2-2' }}₺</td>
+                    <td>{{ item.cost | number : '.2-2' }}₺</td>
                     <td>{{ item.count }}</td>
-                    <td>{{ (item.kdvPrice - item.kdvCost) * item.count | number : '.2-2' }}₺</td>
+                    <td>{{ (item.kdvPrice - item.cost) * item.count | number : '.2-2' }}₺</td>
                     <td>{{ item.date }}</td>
                   </tr>
                 </tbody>
@@ -75,7 +75,7 @@
                   <th>Grup</th>
                   <th>Maliyet</th>
                   <th>Adet</th>
-                  <th>Toplam tutar</th>
+                  <th>Toplam maliyet</th>
                   <th>Tarih</th>
                 </tr>
               </thead>
@@ -84,9 +84,9 @@
                   <td>{{ item.process }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.group }}</td>
-                  <td>{{ item.kdvCost | number : '.2-2' }}₺</td>
+                  <td>{{ item.cost | number : '.2-2' }}₺</td>
                   <td>{{ item.stock }}</td>
-                  <td>{{ item.kdvCost * item.stock | number : '.2-2' }}₺</td>
+                  <td>{{ item.cost * item.stock | number : '.2-2' }}₺</td>
                   <td>{{ item.date }}</td>
                 </tr>
               </tbody>

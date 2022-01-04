@@ -24,6 +24,6 @@ import { searchPipe2 } from './pipe';
     searchPipe2,
   ]
 })
-export class stockModule { 
+export class StockModule { 
 
 }

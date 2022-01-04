@@ -7,14 +7,9 @@ export const navItems: INavData[] = [
     icon: 'cil-chart-line',
   },
   {
-    name: 'Stok',
+    name: 'Depo',
     url: '/stock',
     icon: 'cil-truck'
-  },
-  {
-    name: 'Satış',
-    url: '/sell',
-    icon: 'cil-money'
   },
   {
     title: true,
@@ -28,6 +23,34 @@ export const navItems: INavData[] = [
   {
     name: 'Gruplar',
     url: '/edit/groups',
+    icon: 'cil-object-group'
+  },
+  {
+    title: true,
+    name: 'Kafe 1'
+  },
+  {
+    name: 'Satış',
+    url: '/cafe1/sales',
+    icon: 'cil-pizza'
+  },
+  {
+    name: 'Stok',
+    url: '/cafe1/store',
+    icon: 'cil-object-group'
+  },
+  {
+    title: true,
+    name: 'Kafe 2'
+  },
+  {
+    name: 'Satış',
+    url: '/cafe2/sales',
+    icon: 'cil-pizza'
+  },
+  {
+    name: 'Stok',
+    url: '/cafe2/store',
     icon: 'cil-object-group'
   }
 ];
