@@ -116,12 +116,12 @@ export class StoreComponent implements OnInit {
       this.materialCount = element.payload.val().materialCount;
       }
     });
-    this.db.database.ref('/products/'+this.keys).update({stock:this.stock + stock});
+    //this.db.database.ref('/products/'+this.keys).update({stock:this.stock});
     this.db.database.ref('/products/'+this.keys).update({cafe1Stock:this.cafe1Stocks - stock});
     this.cafe1Stocks = 0;
     this.stock = 0;
     this.largeModal2.hide();
-    this.db.list("/statistics/stock").push({process:"Kafe 1 iade",name:this.name,group:this.group,date:this.dateString,stock:stock,cost:this.cost});
+    this.db.list("/statistics/stock").push({process:"Kafe 1 iade",name:this.name,group:this.group,date:this.dateString,stock:stock,cost:0});
     this.stock=null;
   }
 }

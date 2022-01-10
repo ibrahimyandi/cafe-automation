@@ -154,7 +154,7 @@ export class SalesComponent implements OnInit {
         }
       })
       //
-      this.db.list("/statistics/sold").push({process:"Kafe 2 satış", name: x.data.name, group: x.data.group, kdvPrice: x.data.kdvPrice, cost: x.data.cost, count: x.count, date: x.date});
+      this.db.list("/statistics/sold").push({process:"Kafe 1 satış", name: x.data.name, group: x.data.group, kdvPrice: x.data.kdvPrice, cost: x.data.cost, count: x.count, date: x.date});
     })
     newWin.document.write("</table> <hr class='dashed'> <div class='bodyFooter'> <span class='totalText'>TOPLAM TUTAR</span>");
     newWin.document.write("<span class='total'>"+this.totalPrice.toFixed(2)+"&nbsp;₺</span>");

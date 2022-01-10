@@ -955,6 +955,63 @@
     },
 
     /***/
+    "VEFy":
+    /*!***************************************!*\
+      !*** ./src/app/globalErrorHandler.ts ***!
+      \***************************************/
+
+    /*! exports provided: GlobalErrorHandler */
+
+    /***/
+    function VEFy(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export (binding) */
+
+
+      __webpack_require__.d(__webpack_exports__, "GlobalErrorHandler", function () {
+        return GlobalErrorHandler;
+      });
+      /* harmony import */
+
+
+      var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! tslib */
+      "mrSG");
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      /*! @angular/core */
+      "8Y7J");
+
+      var GlobalErrorHandler = /*#__PURE__*/function () {
+        function GlobalErrorHandler() {
+          _classCallCheck(this, GlobalErrorHandler);
+        }
+
+        _createClass(GlobalErrorHandler, [{
+          key: "handleError",
+          value: function handleError(error) {
+            var chunkFailedMessage = /Loading chunk [\d]+ failed/;
+
+            if (chunkFailedMessage.test(error.message)) {
+              if (confirm("New version available. Load New Version?")) {
+                window.location.reload();
+              }
+            }
+          }
+        }]);
+
+        return GlobalErrorHandler;
+      }();
+
+      GlobalErrorHandler = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])()], GlobalErrorHandler);
+      /***/
+    },
+
+    /***/
     "ZAI4":
     /*!*******************************!*\
       !*** ./src/app/app.module.ts ***!
@@ -1084,31 +1141,37 @@
       /* harmony import */
 
 
-      var _coreui_angular__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(
+      var _globalErrorHandler__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(
+      /*! ./globalErrorHandler */
+      "VEFy");
+      /* harmony import */
+
+
+      var _coreui_angular__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(
       /*! @coreui/angular */
       "Iluq");
       /* harmony import */
 
 
-      var _app_routing__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(
+      var _app_routing__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(
       /*! ./app.routing */
       "beVS");
       /* harmony import */
 
 
-      var ngx_bootstrap_dropdown__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(
+      var ngx_bootstrap_dropdown__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(
       /*! ngx-bootstrap/dropdown */
       "FE24");
       /* harmony import */
 
 
-      var ngx_bootstrap_tabs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(
+      var ngx_bootstrap_tabs__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(
       /*! ngx-bootstrap/tabs */
       "2ZVE");
       /* harmony import */
 
 
-      var ng2_charts__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(
+      var ng2_charts__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(
       /*! ng2-charts */
       "hrfs");
 
@@ -1135,11 +1198,14 @@
       };
 
       AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__["BrowserAnimationsModule"], _app_routing__WEBPACK_IMPORTED_MODULE_18__["AppRoutingModule"], _coreui_angular__WEBPACK_IMPORTED_MODULE_17__["AppAsideModule"], _coreui_angular__WEBPACK_IMPORTED_MODULE_17__["AppBreadcrumbModule"].forRoot(), _coreui_angular__WEBPACK_IMPORTED_MODULE_17__["AppFooterModule"], _coreui_angular__WEBPACK_IMPORTED_MODULE_17__["AppHeaderModule"], _coreui_angular__WEBPACK_IMPORTED_MODULE_17__["AppSidebarModule"], ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_5__["PerfectScrollbarModule"], ngx_bootstrap_dropdown__WEBPACK_IMPORTED_MODULE_19__["BsDropdownModule"].forRoot(), ngx_bootstrap_tabs__WEBPACK_IMPORTED_MODULE_20__["TabsModule"].forRoot(), ng2_charts__WEBPACK_IMPORTED_MODULE_21__["ChartsModule"], _coreui_icons_angular__WEBPACK_IMPORTED_MODULE_6__["IconModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"], _coreui_icons_angular__WEBPACK_IMPORTED_MODULE_6__["IconSetModule"].forRoot(), _angular_fire__WEBPACK_IMPORTED_MODULE_14__["AngularFireModule"].initializeApp(firebase), _angular_fire_database__WEBPACK_IMPORTED_MODULE_15__["AngularFireDatabaseModule"]],
+        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__["BrowserAnimationsModule"], _app_routing__WEBPACK_IMPORTED_MODULE_19__["AppRoutingModule"], _coreui_angular__WEBPACK_IMPORTED_MODULE_18__["AppAsideModule"], _coreui_angular__WEBPACK_IMPORTED_MODULE_18__["AppBreadcrumbModule"].forRoot(), _coreui_angular__WEBPACK_IMPORTED_MODULE_18__["AppFooterModule"], _coreui_angular__WEBPACK_IMPORTED_MODULE_18__["AppHeaderModule"], _coreui_angular__WEBPACK_IMPORTED_MODULE_18__["AppSidebarModule"], ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_5__["PerfectScrollbarModule"], ngx_bootstrap_dropdown__WEBPACK_IMPORTED_MODULE_20__["BsDropdownModule"].forRoot(), ngx_bootstrap_tabs__WEBPACK_IMPORTED_MODULE_21__["TabsModule"].forRoot(), ng2_charts__WEBPACK_IMPORTED_MODULE_22__["ChartsModule"], _coreui_icons_angular__WEBPACK_IMPORTED_MODULE_6__["IconModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"], _coreui_icons_angular__WEBPACK_IMPORTED_MODULE_6__["IconSetModule"].forRoot(), _angular_fire__WEBPACK_IMPORTED_MODULE_14__["AngularFireModule"].initializeApp(firebase), _angular_fire_database__WEBPACK_IMPORTED_MODULE_15__["AngularFireDatabaseModule"]],
         declarations: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]].concat(APP_CONTAINERS, [_views_error_404_component__WEBPACK_IMPORTED_MODULE_11__["P404Component"], _views_error_500_component__WEBPACK_IMPORTED_MODULE_12__["P500Component"], _views_login_login_component__WEBPACK_IMPORTED_MODULE_13__["LoginComponent"]]),
         providers: [{
           provide: _angular_common__WEBPACK_IMPORTED_MODULE_3__["LocationStrategy"],
           useClass: _angular_common__WEBPACK_IMPORTED_MODULE_3__["HashLocationStrategy"]
+        }, {
+          provide: _angular_core__WEBPACK_IMPORTED_MODULE_2__["ErrorHandler"],
+          useClass: _globalErrorHandler__WEBPACK_IMPORTED_MODULE_17__["GlobalErrorHandler"]
         }, _shared_services_auth_services__WEBPACK_IMPORTED_MODULE_16__["AuthService"], _coreui_icons_angular__WEBPACK_IMPORTED_MODULE_6__["IconSetService"], _shared_services_excel_services__WEBPACK_IMPORTED_MODULE_8__["ExcelService"]],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]]
       })], AppModule);
@@ -1254,7 +1320,7 @@
           loadChildren: function loadChildren() {
             return Promise.all(
             /*! import() | views-stock-stock-module */
-            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~e852d835"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~4175f813"), __webpack_require__.e("views-stock-stock-module")]).then(__webpack_require__.bind(null,
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~9a95adb6"), __webpack_require__.e("views-stock-stock-module")]).then(__webpack_require__.bind(null,
             /*! ./views/stock/stock.module */
             "0edY")).then(function (m) {
               return m.StockModule;
@@ -1266,7 +1332,7 @@
           loadChildren: function loadChildren() {
             return Promise.all(
             /*! import() | views-dashboard-dashboard-module */
-            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~e852d835"), __webpack_require__.e("views-dashboard-dashboard-module")]).then(__webpack_require__.bind(null,
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("views-dashboard-dashboard-module")]).then(__webpack_require__.bind(null,
             /*! ./views/dashboard/dashboard.module */
             "6dU7")).then(function (m) {
               return m.DashboardModule;
@@ -1278,7 +1344,7 @@
           loadChildren: function loadChildren() {
             return Promise.all(
             /*! import() | views-products-products-module */
-            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~e852d835"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~4175f813"), __webpack_require__.e("views-products-products-module")]).then(__webpack_require__.bind(null,
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~9a95adb6"), __webpack_require__.e("views-products-products-module")]).then(__webpack_require__.bind(null,
             /*! ./views/products/products.module */
             "tzx7")).then(function (m) {
               return m.ProductsModule;
@@ -1290,7 +1356,7 @@
           loadChildren: function loadChildren() {
             return Promise.all(
             /*! import() | views-groups-groups-module */
-            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~e852d835"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~4175f813"), __webpack_require__.e("views-groups-groups-module")]).then(__webpack_require__.bind(null,
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~9a95adb6"), __webpack_require__.e("views-groups-groups-module")]).then(__webpack_require__.bind(null,
             /*! ./views/groups/groups.module */
             "y4P3")).then(function (m) {
               return m.GroupsModule;
@@ -1302,7 +1368,7 @@
           loadChildren: function loadChildren() {
             return Promise.all(
             /*! import() | views-cafe1-sales-sales-module */
-            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~e852d835"), __webpack_require__.e("views-cafe1-sales-sales-module")]).then(__webpack_require__.bind(null,
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("views-cafe1-sales-sales-module")]).then(__webpack_require__.bind(null,
             /*! ./views/cafe1/sales/sales.module */
             "6S9Q")).then(function (m) {
               return m.SalesModule;
@@ -1314,7 +1380,7 @@
           loadChildren: function loadChildren() {
             return Promise.all(
             /*! import() | views-cafe1-store-store-module */
-            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~e852d835"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~4175f813"), __webpack_require__.e("views-cafe1-store-store-module")]).then(__webpack_require__.bind(null,
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~9a95adb6"), __webpack_require__.e("views-cafe1-store-store-module")]).then(__webpack_require__.bind(null,
             /*! ./views/cafe1/store/store.module */
             "Pi7a")).then(function (m) {
               return m.StoreModule;
@@ -1326,7 +1392,7 @@
           loadChildren: function loadChildren() {
             return Promise.all(
             /*! import() | views-cafe2-sales-sales-module */
-            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~e852d835"), __webpack_require__.e("views-cafe2-sales-sales-module")]).then(__webpack_require__.bind(null,
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("views-cafe2-sales-sales-module")]).then(__webpack_require__.bind(null,
             /*! ./views/cafe2/sales/sales.module */
             "iO8b")).then(function (m) {
               return m.SalesModule;
@@ -1338,9 +1404,33 @@
           loadChildren: function loadChildren() {
             return Promise.all(
             /*! import() | views-cafe2-store-store-module */
-            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~e852d835"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~4175f813"), __webpack_require__.e("views-cafe2-store-store-module")]).then(__webpack_require__.bind(null,
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~9a95adb6"), __webpack_require__.e("views-cafe2-store-store-module")]).then(__webpack_require__.bind(null,
             /*! ./views/cafe2/store/store.module */
             "LnKY")).then(function (m) {
+              return m.StoreModule;
+            });
+          },
+          canActivate: [_shared_guard_auth_guard__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"]]
+        }, {
+          path: 'restaurant/sales',
+          loadChildren: function loadChildren() {
+            return Promise.all(
+            /*! import() | views-restaurant-sales-sales-module */
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~9a95adb6"), __webpack_require__.e("views-restaurant-sales-sales-module")]).then(__webpack_require__.bind(null,
+            /*! ./views/restaurant/sales/sales.module */
+            "P26L")).then(function (m) {
+              return m.SalesModule;
+            });
+          },
+          canActivate: [_shared_guard_auth_guard__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"]]
+        }, {
+          path: 'restaurant/store',
+          loadChildren: function loadChildren() {
+            return Promise.all(
+            /*! import() | views-restaurant-store-store-module */
+            [__webpack_require__.e("default~views-cafe1-sales-sales-module~views-cafe1-store-store-module~views-cafe2-sales-sales-module~b6dba473"), __webpack_require__.e("default~views-cafe1-store-store-module~views-cafe2-store-store-module~views-groups-groups-module~vie~9a95adb6"), __webpack_require__.e("views-restaurant-store-store-module")]).then(__webpack_require__.bind(null,
+            /*! ./views/restaurant/store/store.module */
+            "Rr81")).then(function (m) {
               return m.StoreModule;
             });
           },
@@ -1425,6 +1515,17 @@
       }, {
         name: 'Stok',
         url: '/cafe2/store',
+        icon: 'cil-object-group'
+      }, {
+        title: true,
+        name: 'Restoran 1'
+      }, {
+        name: 'Satış',
+        url: '/restaurant/sales',
+        icon: 'cil-pizza'
+      }, {
+        name: 'Stok',
+        url: '/restaurant/store',
         icon: 'cil-object-group'
       }];
       /***/

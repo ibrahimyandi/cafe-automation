@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   statistics = [];
   totalIncome = 0;
+  totalSell = 0;
   totalCost = 0;
   stock = [];
   user;
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit {
       this.statistics = i.reverse();
       this.statistics.forEach(element => {
         this.totalIncome += (element.kdvPrice - element.cost) * element.count;
+        this.totalSell += element.kdvPrice * element.count;
       });
     });
     db.list('/statistics/stock').valueChanges().subscribe(i => {

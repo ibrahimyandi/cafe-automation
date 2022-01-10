@@ -88,6 +88,7 @@ export class SalesComponent implements OnInit {
   }
   key;
   sellCount;
+
   sell(){
     this.totalPrice = 0;
     const date = new Date();
@@ -96,7 +97,7 @@ export class SalesComponent implements OnInit {
     var newWin = window.open("");
     newWin.document.write("<!DOCTYPE html><html lang='en'> <head> <meta charset='utf-8'> <title>SKS Fatura</title> <style> body{ width: 80mm; position: relative; display: block; margin: 0px; font-size: 12px; font-weight: bold; text-transform: uppercase; } .container{ margin: 10px; } .title{ text-align: center; margin-top: 4px; } span{ width: 100px; display: inline-block; } hr.dashed { border-top: 1px dashed black; } th{ width: 80px; text-align: left; } .bodyFooter{ position: relative; } .totalText{ width: 81%; } .total{ float: right; width: 19%; } .footer{ } </style> </head> <body> <div class='container'> <div class='head'> <div class='title'>SKS</div> <br> <div><span>PEŞİN MÜŞTERİ</span>&nbsp;&nbsp;</div>");
     newWin.document.write("</div> <div><span>TARİH</span>:&nbsp;&nbsp;"+this.faturaTarih+"</div><div><span>FİŞ NO</span>:&nbsp;&nbsp;"+this.receiptId+"</div> </div> <hr class='dashed'> <div class='body'> <table> <tr> <th style='width: 40%;'>ÜRÜN ADI</th> <th style='width: 0px;'></th><th style='width: 0px;'></th> <th>FİYAT</th> <th>ADET</th> <th>TUTAR</th> </tr>")
-    this.selectedProd.forEach(x=>{
+      this.selectedProd.forEach(x=>{
       this.totalPrice += x.totalPrice;
       newWin.document.write("<tr>");
       newWin.document.write("<td colspan='3'>"+x.data.name+"</td>");
@@ -105,8 +106,9 @@ export class SalesComponent implements OnInit {
       newWin.document.write("<td>"+x.totalPrice.toFixed(2)+"&nbsp;₺</td>");
       newWin.document.write("</tr>");
       x.date = this.faturaTarih;
-      var sellStock = parseFloat(x.data.stock) - parseFloat(x.count);
+      var sellStock = parseFloat(x.data.cafe2Stock) - parseFloat(x.count);
       this.db.database.ref("/products/"+x.key).update({cafe2Stock:sellStock});
+      //
       this.products.forEach(element=>{
         if(x.key == element.key){
           var cafeStock = x.count;
@@ -151,6 +153,7 @@ export class SalesComponent implements OnInit {
           }
         }
       })
+      //
       this.db.list("/statistics/sold").push({process:"Kafe 2 satış", name: x.data.name, group: x.data.group, kdvPrice: x.data.kdvPrice, cost: x.data.cost, count: x.count, date: x.date});
     })
     newWin.document.write("</table> <hr class='dashed'> <div class='bodyFooter'> <span class='totalText'>TOPLAM TUTAR</span>");
@@ -163,6 +166,7 @@ export class SalesComponent implements OnInit {
     this.db.list("/receipt").set('id', this.receiptId);
     this.alinanPara = 0;
   }
+
   cancel(){
     this.selectedProd.splice(0,this.selectedProd.length);
     this.totalPrice = 0;

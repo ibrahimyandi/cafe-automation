@@ -108,7 +108,26 @@ export class StockComponent implements OnInit {
             if(element.key == x.id){
               var stocks = element.payload.val().stock;
               stocks -= x.amount * stock;
+              var newStocks = x.amount * stock;
               this.db.database.ref('/products/'+ x.id).update({stock:stocks});
+              var array = [];
+              array = element.payload.val().stockDetail;
+              if(element.payload.val().stockDetail != undefined){
+                array = element.payload.val().stockDetail;
+                for (let index = array.length; index > 0; index--) {
+                  array[index-1].stock -= newStocks;
+                  if(array[index-1].stock > 0){
+                    break;
+                  }
+                  else{
+                    newStocks = array[index-1].stock * -1;
+                    array.splice(index-1,1);
+                  }
+                  console.log(newStocks);
+                }
+                console.log(array);
+                this.db.database.ref('/products/'+ x.id +'/stockDetail').set(array);
+              }
             }
           })
         })
@@ -127,11 +146,13 @@ export class StockComponent implements OnInit {
         else if(this.stockDetail.length == 1){
           average = this.stockDetail[0].cost;
         }
+        console.log(average);
         this.db.database.ref("/products/"+this.keys).update({cost: average});
         this.largeModal.hide();
         this.total = 0;
         this.db.list("/statistics/stock").push({process:"Depo ekleme", name:this.name,group:this.group,date:this.dateString,stock:stock,cost:this.oldCost});    
         this.stock=null;
+        this.stockDetail = [];
       }
     }
     else{

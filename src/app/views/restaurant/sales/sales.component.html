@@ -1,0 +1,130 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          Masaları düzenle
+        </div>
+        <div class="card-body">
+          <button class="btn btn-primary" type="submit" (click)="tableEdit(1)">Masa ekle</button>
+          <button class="btn btn-primary" type="submit" (click)="tableEdit(0)">Masa çıkar</button>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          Masalar
+        </div>
+        <div class="card-body row">
+          <div class="col-md-4" *ngFor="let item of table">
+            <div class="card">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-9">Masa {{ item.payload.val().name }}</div>
+                  <div class="col-3">
+                      <span style="float:right;height: 25px;
+                      width: 25px;
+                      border-radius: 50%;
+                      " [ngStyle]="{'background-color': (item.payload.val().product != undefined) ? '#dc3545' : '#28a745'}"></span>
+                  </div>  
+                </div>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Ürün listesi</h6>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Ürün</th>
+                      <th scope="col">Adet</th>
+                      <th scope="col">Tutar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let prod of item.payload.val().product">
+                      <td>{{ prod.data.name }}</td>
+                      <td>{{ prod.count }}</td>
+                      <td>{{ prod.totalPrice | number : '.2-2' }}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Toplam tutar</td>
+                      <td>{{ getSum(item.payload.val().product) | number : '.2-2' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-6">
+                    <button class="btn btn-primary" type="submit" (click)="modalOpen(item.payload.key)">Ürün ekle</button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-primary" type="submit" [disabled]="item.payload.val().product == undefined" (click)="sell(item.payload.key)">Satış</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Masa ürün ekleme</h4>
+        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header">
+            <div class="input-group">
+              <span class="input-group-prepend">
+                <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+              </span>
+              <input type="text" id="input1-group2" name="search" class="form-control" placeholder="Ürün" [(ngModel)]="search">  
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <ng-container *ngFor="let item of products | filter:search">
+                <div class="col-4" style="cursor: pointer;" (click)="selectProduct(item.payload.key)" *ngIf="item.payload.val().restaurant1Stock > 0">
+                  <div>{{item.payload.val().name}}({{item.payload.val().restaurant1Stock | number : '.2-2' }})</div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="card-footer">
+            <table class="table table-bordered table-striped table-sm" *ngIf="selectedProd != undefined ">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Ürün adı</th>
+                  <th>Adet</th>
+                  <th>Fiyat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of selectedProd, let i = index">
+                  <td (click)="countDecrease(i)" style="display: table-cell;vertical-align: middle;cursor: pointer;text-align: center;"><i class="cil-minus" style="color:red"></i></td>
+                  <td>{{item.data.name}}</td>
+                  <td>{{item.count}}</td>
+                  <td>{{item.totalPrice | number : '.2-2' }}</td>
+                </tr>
+              </tbody>
+            </table>      
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Vazgeç</button>
+        <button type="button" class="btn btn-primary" (click)="addProduct()">Değişiklikleri kaydet</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

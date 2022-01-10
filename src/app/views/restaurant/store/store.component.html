@@ -1,0 +1,222 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> STOK LİSTESİ
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="input-group">
+                  <span class="input-group-prepend">
+                    <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
+                  </span>
+                  <input type="text" id="input1-group2" name="search" class="form-control" placeholder="Ürün" [(ngModel)]="search">
+                </div>
+              </div>
+              <div class="col-12 mt-4">
+                <table class="table table-bordered table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th>Ürün adı</th>
+                      <th>Grup</th>
+                      <th>Maliyet (KDV)</th>
+                      <th>Depo adet</th>
+                      <th>Kafe adet</th>
+                      <th>Ekleme ve iade işlemleri</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of products | filter:search">
+                      <td>{{ item.payload.val().name }}</td>
+                      <td>{{ item.payload.val().group }}</td>
+                      <td>{{ item.payload.val().cost | number : '.2-2'  }}₺</td>
+                      <td>{{ item.payload.val().stock | number : '.2-2'  }}</td>
+                      <td>{{ item.payload.val().restaurant1Stock | number : '.2-2'  }}</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-6">
+                            <button type="button" class="btn btn-success btn-square btn-block" (click)="modalOpen(item.key)" (click)="largeModal.show()">Stok ekle</button>
+                          </div>
+                          <div class="col-6">
+                            <button type="button" class="btn btn-primary btn-square btn-block" (click)="modalOpen(item.key)" (click)="largeModal2.show()">İade et</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Stok ekleme işlemi</h4>
+          <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-body">
+              <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Ürün adı</label>
+                  <div class="col-md-9">
+                    <input disabled [(ngModel)]="name" name="name" type="text" id="text-input" class="form-control" placeholder="{{this.name}}">
+                    <span class="help-block"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Ürün maliyeti</label>
+                  <div class="controls col-md-9">
+                    <div class="input-prepend input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">₺</span>
+                      </div>
+                      <input disabled [(ngModel)]="cost" name="cost" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="{{this.cost}}">
+                      <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="select3">Ürün grubu</label>
+                  <div class="col-md-9">
+                    <select disabled id="select3" name="group" class="form-control form-control-sm" [(ngModel)]="group" required>
+                      <option [value]="item.name" *ngFor="let item of groups">{{ item.name }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="file-input">Ürün fotoğrafı</label>
+                  <div class="col-md-6">
+                    <input disabled [(ngModel)]="photo" name="photo" type="text" id="text-input" class="form-control" placeholder="{{this.photo}}">
+                  </div>
+                  <div class="col-md-3">
+                    <img src="{{photo}}" alt="..." class="img-thumbnail">
+                  </div>
+                </div>
+                <table class="table table-bordered table-striped table-sm" *ngIf="materialCount != 0">
+                  <thead>
+                    <tr>
+                      <th>Malzeme adı</th>
+                      <th>Kullanılan miktar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let material of materialsList, let i = index">
+                      <td>{{ material.name }}</td>
+                      <td>{{ material.amount }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">Eklenecek stok sayısı</label>
+                  <div class="controls col-md-9">
+                    <div class="input-prepend input-group">
+                      <input [(ngModel)]="modalStock" name="modalStock" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="Şuanki stok: {{this.restaurant1Stocks}}">
+                      <div class="input-group-append">
+                        <span class="input-group-text">adet</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row" *ngIf="result == 0">
+                  <div class="alert alert-warning col-12" role="alert">
+                    Kullanılan malzeme stoğu bu ürünü üretmek için yeterli değildir.
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Vazgeç</button>
+          <button type="button" class="btn btn-primary" (click)="addStock(modalStock)" [disabled]="(stocks < modalStock || modalStock <= 0)? true:false">Değişiklikleri kaydet</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div bsModal #largeModal2="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Stok iade işlemi</h4>
+          <button type="button" class="close" (click)="largeModal2.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-body">
+              <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Ürün adı</label>
+                  <div class="col-md-9">
+                    <input disabled [(ngModel)]="name" name="name" type="text" id="text-input" class="form-control" placeholder="{{this.name}}">
+                    <span class="help-block"></span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="select3">Ürün grubu</label>
+                  <div class="col-md-9">
+                    <select disabled id="select3" name="group" class="form-control form-control-sm" [(ngModel)]="group" required>
+                      <option [value]="item.name" *ngFor="let item of groups">{{ item.name }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="file-input">Ürün fotoğrafı</label>
+                  <div class="col-md-6">
+                    <input disabled [(ngModel)]="photo" name="photo" type="text" id="text-input" class="form-control" placeholder="{{this.photo}}">
+                  </div>
+                  <div class="col-md-3">
+                    <img src="{{photo}}" alt="..." class="img-thumbnail">
+                  </div>
+                </div>
+                <table class="table table-bordered table-striped table-sm" *ngIf="materialCount != 0">
+                  <thead>
+                    <tr>
+                      <th>Malzeme adı</th>
+                      <th>Kullanılan miktar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let material of materialsList, let i = index">
+                      <td>{{ material.name }}</td>
+                      <td>{{ material.amount }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3" for="appendedPrependedInput">İade edilecek stok sayısı</label>
+                  <div class="controls col-md-9">
+                    <div class="input-prepend input-group">
+                      <input [(ngModel)]="stock" name="stock" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="Şuanki stok: {{this.restaurant1Stocks}}">
+                      <div class="input-group-append">
+                        <span class="input-group-text">adet</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="largeModal2.hide()">Vazgeç</button>
+          <button type="button" class="btn btn-primary" (click)="returnStock(stock)" [disabled]="(stock > this.restaurant1Stocks || stock <= 0)? true:false">Değişiklikleri kaydet</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

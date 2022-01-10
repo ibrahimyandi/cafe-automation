@@ -29,6 +29,7 @@ export class StoreComponent implements OnInit {
   product = []
   oldCost = 0;
   prodCount = 1;
+  stockDepo;
   materialsList = [];
   modalDetail = [];
   dateString;
@@ -111,6 +112,7 @@ export class StoreComponent implements OnInit {
       this.group = element.payload.val().group;
       this.photo = element.payload.val().photo;
       this.cafe2Stocks = element.payload.val().cafe2Stock;
+      this.stockDepo = element.payload.val().stock;
       }
     });
     //this.db.database.ref('/products/'+this.keys).update({stock:this.stock + stock});
@@ -118,7 +120,6 @@ export class StoreComponent implements OnInit {
     this.cafe2Stocks = 0;
     //this.stock = 0;
     this.largeModal2.hide();
-    //this.db.list("/statistics/stock").push({process:"Kafe 2 iade",name:this.name,group:this.group,date:this.dateString,stock:stock,cost:this.cost});
-    
+    this.db.list("/statistics/stock").push({process:"Kafe 2 iade",name:this.name,group:this.group,date:this.dateString,stock:stock,cost:0});
   }
 }

@@ -31,9 +31,9 @@
                     <tr *ngFor="let item of products | filter:search">
                       <td>{{ item.payload.val().name }}</td>
                       <td>{{ item.payload.val().group }}</td>
-                      <td>{{ item.payload.val().cost | number : '.2-2'  }}₺</td>
-                      <td>{{ item.payload.val().stock | number : '.2-2'  }}</td>
-                      <td>{{ item.payload.val().cafe1Stock | number : '.2-2'  }}</td>
+                      <td>{{ item.payload.val().cost | number : '.2-2' }}₺</td>
+                      <td>{{ item.payload.val().stock | number : '.2-2' }}</td>
+                      <td>{{ item.payload.val().cafe1Stock | number : '.2-2' }}</td>
                       <td>
                         <div class="row">
                           <div class="col-6">
@@ -142,7 +142,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Vazgeç</button>
-          <button type="button" class="btn btn-primary" (click)="addStock(modalStock)" [disabled]="(modalStock <= 0)? true:false">Değişiklikleri kaydet</button>
+          <button type="button" class="btn btn-primary" (click)="addStock(modalStock)" [disabled]="(stocks < modalStock || modalStock <= 0)? true:false">Değişiklikleri kaydet</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

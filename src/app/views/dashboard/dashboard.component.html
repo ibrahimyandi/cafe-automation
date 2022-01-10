@@ -19,22 +19,26 @@
               <table class="table table-bordered table-striped table-sm" id="sellProd">
                 <thead>
                   <tr>
+                    <th>İşlem</th>
                     <th>Ürün adı</th>
                     <th>Grup</th>
                     <th>Fiyat</th>
                     <th>Maliyet</th>
                     <th>Adet</th>
+                    <th>Toplam satış</th>
                     <th>Kâr</th>
                     <th>Tarih</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of statistics | filter:sellProdSearch">
+                    <td>{{ item.process }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.group }}</td>
                     <td>{{ item.kdvPrice | number : '.2-2' }}₺</td>
                     <td>{{ item.cost | number : '.2-2' }}₺</td>
                     <td>{{ item.count }}</td>
+                    <td>{{ item.kdvPrice * item.count | number : '.2-2' }}₺</td>
                     <td>{{ (item.kdvPrice - item.cost) * item.count | number : '.2-2' }}₺</td>
                     <td>{{ item.date }}</td>
                   </tr>
@@ -45,7 +49,7 @@
         </div>
         <div class="card-footer">
           <div class="row">
-            <div class="col-6">Toplam Kâr: {{ totalIncome | number : '.2-2' }}₺</div>
+            <div class="col-6">Toplam Satış: {{ totalSell | number : '.2-2' }}₺ <br> Toplam Kâr: {{ totalIncome | number : '.2-2' }}₺</div>
             <div class="col-6 float-right"><button (click)="clearAndExport('statistics')" type="button" class="btn btn-success btn-square float-right">Temizle ve excele aktar</button></div>
           </div>
       </div>
@@ -104,7 +108,7 @@
     <div class="card">
       <div class="cord-body">
         <div class="alert alert-secondary" style="margin-bottom: 0px;" role="alert">
-          <div>Genel durum : <span [ngStyle]="{'color': totalIncome - totalCost > 0? 'green' : 'red'}">{{ totalIncome - totalCost | number : '.2-2' }}₺</span></div>
+          <div>Genel durum : <span [ngStyle]="{'color': totalIncome - totalCost > 0? 'green' : 'red'}">{{ totalSell - totalCost | number : '.2-2' }}₺</span></div>
         </div>
       </div>
     </div>

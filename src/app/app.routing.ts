@@ -82,6 +82,16 @@ export const routes: Routes = [
         path: 'cafe2/store',
         loadChildren: () => import('./views/cafe2/store/store.module').then(m => m.StoreModule),
         canActivate: [AuthGuard] 
+      },
+      {
+        path: 'restaurant/sales',
+        loadChildren: () => import('./views/restaurant/sales/sales.module').then(m => m.SalesModule),
+        canActivate: [AuthGuard] 
+      },
+      {
+        path: 'restaurant/store',
+        loadChildren: () => import('./views/restaurant/store/store.module').then(m => m.StoreModule),
+        canActivate: [AuthGuard] 
       }
     ]
   },

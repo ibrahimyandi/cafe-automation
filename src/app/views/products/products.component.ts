@@ -73,7 +73,7 @@ export class ProductsComponent implements OnInit {
     this.db.list('/products/'+key).remove();
   }
   addProduct(name, price, kdv, group, photo){
-    this.db.list('/products').push({name:name,price:price,cost:this.cost,kdv:kdv,kdvPrice:parseFloat(price)*(1+parseFloat(kdv)/100),group:group,photo:photo,stock:0,cafe1Stock:0,cafe2Stock:0,materialCount:this.materialCount, prodCount:this.prodCount,material:this.materialsList});
+    this.db.list('/products').push({name:name,price:price,cost:this.cost,kdv:kdv,kdvPrice:parseFloat(price)*(1+parseFloat(kdv)/100),group:group,photo:photo,stock:0,cafe1Stock:0,cafe2Stock:0,restaurant1Stock:0,materialCount:this.materialCount, prodCount:this.prodCount,material:this.materialsList});
     this.name = "";
     this.price = "";
     this.kdv = "";

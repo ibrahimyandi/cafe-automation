@@ -142,7 +142,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Vazgeç</button>
-          <button type="button" class="btn btn-primary" (click)="addStock(modalStock)" [disabled]="(modalStock <= 0)? true:false">Değişiklikleri kaydet</button>
+          <button type="button" class="btn btn-primary" (click)="addStock(modalStock)" [disabled]="(stocks < modalStock || modalStock <= 0)? true:false">Değişiklikleri kaydet</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -27,7 +27,7 @@ import { LoginComponent } from './views/login/login.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AuthService } from './shared/services/auth.services';
-
+import { GlobalErrorHandler } from './globalErrorHandler';
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
@@ -90,6 +90,7 @@ export const firebase = {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
     },
+    {provide: ErrorHandler, useClass: GlobalErrorHandler},
     AuthService,
     IconSetService,
     ExcelService,

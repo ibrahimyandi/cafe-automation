@@ -52,5 +52,19 @@ export const navItems: INavData[] = [
     name: 'Stok',
     url: '/cafe2/store',
     icon: 'cil-object-group'
+  },
+  {
+    title: true,
+    name: 'Restoran 1'
+  },
+  {
+    name: 'Satış',
+    url: '/restaurant/sales',
+    icon: 'cil-pizza'
+  },
+  {
+    name: 'Stok',
+    url: '/restaurant/store',
+    icon: 'cil-object-group'
   }
 ];

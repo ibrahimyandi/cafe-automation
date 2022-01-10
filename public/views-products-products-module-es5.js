@@ -242,6 +242,7 @@
               stock: 0,
               cafe1Stock: 0,
               cafe2Stock: 0,
+              restaurant1Stock: 0,
               materialCount: this.materialCount,
               prodCount: this.prodCount,
               material: this.materialsList

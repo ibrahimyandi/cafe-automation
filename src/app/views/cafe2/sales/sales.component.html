@@ -12,7 +12,7 @@
                         <img style="width: 128px;height: 128px;" src="{{prod.payload.val().photo}}" class="rounded float-left" alt="...">
                       </div>
                       <div class="footer" style="text-align: center;">
-                        {{ prod.payload.val().name }}
+                        {{ prod.payload.val().name }} ({{ prod.payload.val().cafe2Stock | number : '.2-2' }})
                       </div>  
                     </div>
                   </div>
