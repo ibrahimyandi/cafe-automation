@@ -63,7 +63,7 @@
               <div class="col-6">
                 <div class="input-prepend input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">₺</span>
+                    <span class="input-group-text"> ₺</span>
                   </div>
                   <input id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="0" name="alinanPara" [(ngModel)]="alinanPara">
                 </div>
@@ -75,7 +75,7 @@
               </div>
               <div class="col-6">
                 <label *ngIf="alinanPara-this.totalPrice<0">Eksik para verildi.</label>
-                <label *ngIf="alinanPara-this.totalPrice>0">{{alinanPara-totalPrice | number : '.2-2' }}₺</label>
+                <label *ngIf="alinanPara-this.totalPrice>0">{{alinanPara-totalPrice | number : '.2-2' }} ₺</label>
                 <label *ngIf="alinanPara-this.totalPrice==0">Ödendi</label>
               </div>
             </div>

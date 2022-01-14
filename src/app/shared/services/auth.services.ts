@@ -15,9 +15,10 @@ export class AuthService {
     public router: Router,  
     public ngZone: NgZone // NgZone service to remove outside scope warning
   ) {    
-        
+    
     }
     x;
+    
     isLoggedIn():boolean{
       this.auth.onAuthStateChanged((credential)=>{
         if(credential){

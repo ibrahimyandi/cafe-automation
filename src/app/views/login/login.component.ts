@@ -12,9 +12,15 @@ export class LoginComponent {
   password;
   errorMessage = "Lütfen giriş yapınız.";
   constructor(private auth:AngularFireAuth, private router:Router,public authService: AuthService,){
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        router.navigate(["/stock"]);
+      }
+    });
   }
   login(email,password){
     this.authService.signIn(email,password);
   }
+  
  
 }

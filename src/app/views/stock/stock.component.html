@@ -30,7 +30,7 @@
                   <tr *ngFor="let item of products | filter:search">
                     <td>{{ item.payload.val().name }}</td>
                     <td>{{ item.payload.val().group }}</td>
-                    <td>{{ item.payload.val().cost | number : '.2-2'  }}₺</td>
+                    <td>{{ item.payload.val().cost | number : '.2-2'  }} ₺</td>
                     <td>{{ item.payload.val().stock | number : '.2-2'  }}</td>
                     <td>
                       <div class="row">
@@ -78,7 +78,7 @@
                 <div class="controls col-md-9">
                   <div class="input-prepend input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">₺</span>
+                      <span class="input-group-text"> ₺</span>
                     </div>
                     <input disabled id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="{{this.oldCost}}">
                     <div class="input-group-append">
@@ -123,7 +123,7 @@
                 <div class="controls col-md-9">
                   <div class="input-prepend input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">₺</span>
+                      <span class="input-group-text"> ₺</span>
                     </div>
                     <input [(ngModel)]="cost" name="cost" id="appendedPrependedInput" [disabled]="this.materialCount > 1" class="form-control" size="16" type="number" placeholder="{{this.cost}}">
                     <div class="input-group-append">
@@ -185,7 +185,7 @@
                 <div class="controls col-md-9">
                   <div class="input-prepend input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">₺</span>
+                      <span class="input-group-text"> ₺</span>
                     </div>
                     <input disabled [(ngModel)]="cost" name="cost" id="appendedPrependedInput" class="form-control" size="16" type="number" placeholder="{{this.cost}}">
                     <div class="input-group-append">

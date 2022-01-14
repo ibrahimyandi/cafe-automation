@@ -68,12 +68,16 @@ export class SalesComponent implements OnInit {
   selectProduct(key){
     var iter = 0;
     this.selectedProd.forEach(i=>{
-      if(key == i.key){
-        this.exist = true;
-        this.selectedProd[iter].count += 1;
-        this.selectedProd[iter].totalPrice = this.selectedProd[iter].count * this.selectedProd[iter].data.kdvPrice;
-        this.totalPrice += this.selectedProd[iter].data.kdvPrice;
-      }
+      this.products.forEach(element => {
+        if(key == i.key && element.key == key){
+          if(element.payload.val().cafe1Stock > this.selectedProd[iter].count){
+            this.selectedProd[iter].count += 1;
+            this.selectedProd[iter].totalPrice = this.selectedProd[iter].count * this.selectedProd[iter].data.kdvPrice;
+            this.totalPrice += this.selectedProd[iter].data.kdvPrice;
+          }
+          this.exist = true;
+        }
+      });
       iter++;
     })
     if(this.exist==false){
@@ -116,7 +120,6 @@ export class SalesComponent implements OnInit {
           if(element.payload.val().stockDetail != undefined){
             for (let index = 0; index < this.stockDetail.length; index++) {
               this.stockDetail[index].stock -= cafeStock;
-              console.log(this.stockDetail[index].stock);
               if(this.stockDetail[index].stock > 0){
                 break;
               }

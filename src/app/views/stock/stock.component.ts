@@ -65,23 +65,54 @@ export class StockComponent implements OnInit {
     });
     var oldStock = stock;
     var newStock = stock;
+    var itemStock;
+    var newCost = 0;
     const date = new Date();
     this.dateString = date.toLocaleString('tr-TR');
     if(this.stockDetail != undefined){
       array = this.stockDetail;
-      for (let index = array.length-1; index > 0; index--) {
+      for (let index = array.length-1; index >= 0; index--) {
+        itemStock = array[index].stock;
         array[index].stock -= newStock;
         if(array[index].stock > 0){
+          newCost += array[index].cost * newStock;
           break;
         }
         else{
+          newCost += array[index].cost * itemStock;
           newStock = array[index].stock * -1;
           array.splice(index,1);
+          if(newStock == 0)
+            break;
         }
+      }
+      newCost = newCost / stock;
+      if(this.stockDetail.length > 0){
+        var average = 0;
+        var amount = 0;
+        this.stockDetail.forEach(element => {
+          average += element.cost * element.stock;
+          amount += element.stock;
+        });
+        console.log(amount);
+        if(amount != 0){
+          average = average / amount;
+          this.db.database.ref("/products/"+this.keys).update({cost: average});
+        }
+        else{
+          this.db.database.ref("/products/"+this.keys).update({cost: 0});
+        }
+        
+      }
+      else if(this.stockDetail.length == 1){
+        this.db.database.ref("/products/"+this.keys).update({cost: this.stockDetail[0].cost});
+      }
+      else{
+        this.db.database.ref("/products/"+this.keys).update({cost: 0});
       }
       this.db.database.ref('/products/'+ this.keys).update({stock: this.stocks - stock});
       this.db.database.ref('/products/'+ this.keys+'/stockDetail').set(array);
-      this.db.list("/statistics/stock").push({process:"Depo silme", name:this.name,group:this.group,date:this.dateString,stock:oldStock,cost:0});    
+      this.db.list("/statistics/stock").push({process:"Depo silme", name:this.name,group:this.group,date:this.dateString,stock:oldStock,cost:-newCost});    
     }
     this.largeModal2.hide();
     this.stock = null;

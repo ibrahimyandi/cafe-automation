@@ -13,7 +13,7 @@ export class SalesComponent implements OnInit {
   openTable = [];
   selectedProd = [];
   stockDetail = [];
-
+  tableName;
   faturaTarih;
   receiptId;
   totalPrice;
@@ -63,17 +63,20 @@ export class SalesComponent implements OnInit {
   selectProduct(key){
     var iter = 0;
     this.selectedProd.forEach(i=>{
-      if(key == i.key){
-        this.exist = true;
-        this.selectedProd[iter].count += 1;
-        this.selectedProd[iter].totalPrice = this.selectedProd[iter].count * this.selectedProd[iter].data.kdvPrice;
-        this.totalPrice += this.selectedProd[iter].data.kdvPrice;
-      }
+      this.products.forEach(element => {
+        if(key == i.key && element.key == key){
+          if(element.payload.val().restaurant1Stock > this.selectedProd[iter].count){
+            this.selectedProd[iter].count += 1;
+            this.selectedProd[iter].totalPrice = this.selectedProd[iter].count * this.selectedProd[iter].data.kdvPrice;
+            this.totalPrice += this.selectedProd[iter].data.kdvPrice;
+          }
+          this.exist = true;
+        }
+      });
       iter++;
     })
     if(this.exist==false){
-      this.products.forEach(element => { //TODO path ile veri ulaş.
-        
+      this.products.forEach(element => {
         if(key == element.key){
           this.selectedProd.push({data:element.payload.val(), count:1, key:element.key, totalPrice: element.payload.val().kdvPrice,date:0});
           this.totalPrice += element.payload.val().kdvPrice;
@@ -114,6 +117,7 @@ export class SalesComponent implements OnInit {
     this.table.forEach(x=>{
       if(x.payload.key == key){
         this.selectedProd = x.payload.val().product;
+        this.tableName = x.payload.val().name;
       }
     })
     this.totalPrice = 0;
@@ -121,7 +125,7 @@ export class SalesComponent implements OnInit {
     this.faturaTarih = date.toLocaleString('tr-TR');
     this.receiptId++;
     var newWin = window.open("");
-    newWin.document.write("<!DOCTYPE html><html lang='en'> <head> <meta charset='utf-8'> <title>SKS Fatura</title> <style> body{ width: 80mm; position: relative; display: block; margin: 0px; font-size: 12px; font-weight: bold; text-transform: uppercase; } .container{ margin: 10px; } .title{ text-align: center; margin-top: 4px; } span{ width: 100px; display: inline-block; } hr.dashed { border-top: 1px dashed black; } th{ width: 80px; text-align: left; } .bodyFooter{ position: relative; } .totalText{ width: 81%; } .total{ float: right; width: 19%; } .footer{ } </style> </head> <body> <div class='container'> <div class='head'> <div class='title'>SKS</div> <br> <div><span>PEŞİN MÜŞTERİ</span>&nbsp;&nbsp;</div>");
+    newWin.document.write("<!DOCTYPE html><html lang='en'> <head> <meta charset='utf-8'> <title>SKS Fatura</title> <style> body{ width: 80mm; position: relative; display: block; margin: 0px; font-size: 12px; font-weight: bold; text-transform: uppercase; } .container{ margin: 10px; } .title{ text-align: center; margin-top: 4px; } span{ width: 100px; display: inline-block; } hr.dashed { border-top: 1px dashed black; } th{ width: 80px; text-align: left; } .bodyFooter{ position: relative; } .totalText{ width: 81%; } .total{ float: right; width: 19%; } .footer{ } </style> </head> <body> <div class='container'> <div class='head'> <div class='title'>SKS</div> <br> <div><span>MASA NO</span>:&nbsp;&nbsp;"+this.tableName+"</div>");
     newWin.document.write("</div> <div><span>TARİH</span>:&nbsp;&nbsp;"+this.faturaTarih+"</div><div><span>FİŞ NO</span>:&nbsp;&nbsp;"+this.receiptId+"</div> </div> <hr class='dashed'> <div class='body'> <table> <tr> <th style='width: 40%;'>ÜRÜN ADI</th> <th style='width: 0px;'></th><th style='width: 0px;'></th> <th>FİYAT</th> <th>ADET</th> <th>TUTAR</th> </tr>")
     this.selectedProd.forEach(x=>{
       this.totalPrice += x.totalPrice;

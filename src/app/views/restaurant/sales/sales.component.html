@@ -57,10 +57,10 @@
               <div class="card-footer">
                 <div class="row">
                   <div class="col-6">
-                    <button class="btn btn-primary" type="submit" (click)="modalOpen(item.payload.key)">Ürün ekle</button>
+                    <button class="btn btn-primary float-left btn-block" type="submit" (click)="modalOpen(item.payload.key)">Ürün ekle</button>
                   </div>
                   <div class="col-6">
-                    <button class="btn btn-primary" type="submit" [disabled]="item.payload.val().product == undefined" (click)="sell(item.payload.key)">Satış</button>
+                    <button class="btn btn-primary float-right btn-block" type="submit" [disabled]="item.payload.val().product == undefined" (click)="sell(item.payload.key)">Satış</button>
                   </div>
                 </div>
               </div>

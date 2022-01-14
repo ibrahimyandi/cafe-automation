@@ -89,7 +89,6 @@ export class StoreComponent implements OnInit {
       if(element.payload.val().materialCount > 0){
         element.payload.val().material.forEach(x => {
           if(this.keys == x.id){
-            console.log(element.payload.val().cost, this.cost, average);
             this.db.database.ref("/products/"+ element.key).update({cost: element.payload.val().cost - this.oldCost + average});
             return;
           }

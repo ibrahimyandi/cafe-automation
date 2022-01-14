@@ -13,13 +13,21 @@ export class DashboardComponent implements OnInit {
   totalSell = 0;
   totalCost = 0;
   stock = [];
+  min1 = 0;
+  max1 = 25;
+  min2 = 0;
+  max2 = 25;
   user;
+  stockLength = 0;
+  soldLength = 0;
   sellProdSearch;
   search;
   filter(value){
     return value.filter((val) => {
+      console.log(val);
       return val.toLocaleLowerCase().includes(value);
     })
+    
   }
 
   constructor(private db:AngularFireDatabase,private excel:ExcelService,auth:AngularFireAuth,private router:Router){
@@ -32,8 +40,9 @@ export class DashboardComponent implements OnInit {
       }
     })
 
-     db.list('/statistics/sold').valueChanges().subscribe(i => {
+    db.list('/statistics/sold').valueChanges().subscribe(i => {
       this.statistics = i.reverse();
+      this.soldLength = Math.ceil(this.statistics.length/25);
       this.statistics.forEach(element => {
         this.totalIncome += (element.kdvPrice - element.cost) * element.count;
         this.totalSell += element.kdvPrice * element.count;
@@ -41,10 +50,53 @@ export class DashboardComponent implements OnInit {
     });
     db.list('/statistics/stock').valueChanges().subscribe(i => {
       this.stock = i.reverse();
+      this.stockLength = Math.ceil(this.stock.length/25);
       this.stock.forEach(element => {
         this.totalCost += element.cost * element.stock;
       });
     });
+  }
+  listSold(x){
+    let sum = 0;
+    x.forEach(element => {
+      sum += element.kdvPrice * element.count;
+    });
+    return sum;
+  }
+  listProfit(x){
+    let sum = 0;
+    x.forEach(element => {
+      sum += element.kdvPrice * element.count - element.cost * element.count;
+    });
+    return sum;
+  }
+  listCost(x){
+    let sum = 0;
+    x.forEach(element => {
+      sum += element.cost * element.stock;
+    });
+    return sum;
+  }
+  
+  pagination(x,i){
+    if(x == 1){
+      this.min1 = i * 25;
+      this.max1 = i * 25 + 25; 
+    }
+    else if(x == 2){
+      this.min2 = i * 25;
+      this.max2 = i * 25 + 25; 
+    }
+  }
+  allList(x){
+    if(x == 1){
+      this.min1 = 0;
+      this.max1 = this.statistics.length;
+    }
+    else if(x == 2){
+      this.min2 = 0;
+      this.max2 = this.stock.length;
+    }
   }
   print(tableName):void{
     if(tableName="statistics"){

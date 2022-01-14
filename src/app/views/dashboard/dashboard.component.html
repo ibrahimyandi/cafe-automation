@@ -12,9 +12,13 @@
                 <span class="input-group-prepend">
                   <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Ara</button>
                 </span>
-                <input type="text" id="input1-group2" name="sellProdSearch" class="form-control" placeholder="Ürün" [(ngModel)]="sellProdSearch">
+                <input type="text" id="input1-group2" name="sellProdSearch" class="form-control" placeholder="Ürün" [(ngModel)]="sellProdSearch" (ngModelChange)="resetList(1)">
               </div>
-                </div>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4">
+              <button class="btn btn-primary float-right btn-block" type="submit" (click)="allList(1)">Tümünü listele</button>
+            </div>
             <div class="col-12 mt-4">
               <table class="table table-bordered table-striped table-sm" id="sellProd">
                 <thead>
@@ -31,26 +35,34 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of statistics | filter:sellProdSearch">
+                  <tr *ngFor="let item of statistics | filter:sellProdSearch | slice:min1:max1">
                     <td>{{ item.process }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.group }}</td>
-                    <td>{{ item.kdvPrice | number : '.2-2' }}₺</td>
-                    <td>{{ item.cost | number : '.2-2' }}₺</td>
+                    <td>{{ item.kdvPrice | number : '.2-2' }} ₺</td>
+                    <td>{{ item.cost | number : '.2-2' }} ₺</td>
                     <td>{{ item.count }}</td>
-                    <td>{{ item.kdvPrice * item.count | number : '.2-2' }}₺</td>
-                    <td>{{ (item.kdvPrice - item.cost) * item.count | number : '.2-2' }}₺</td>
+                    <td>{{ item.kdvPrice * item.count | number : '.2-2' }} ₺</td>
+                    <td>{{ (item.kdvPrice - item.cost) * item.count | number : '.2-2' }} ₺</td>
                     <td>{{ item.date }}</td>
                   </tr>
                 </tbody>
               </table>
+              <nav aria-label="..." class="float-right">
+                <ul class="pagination pagination-sm">
+                  <li class="page-item" *ngFor="let item of [].constructor(soldLength); let i = index">
+                    <span (click)="pagination(1, i)" class="page-link" tabindex="-1">{{i+1}}</span>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
         <div class="card-footer">
           <div class="row">
-            <div class="col-6">Toplam Satış: {{ totalSell | number : '.2-2' }}₺ <br> Toplam Kâr: {{ totalIncome | number : '.2-2' }}₺</div>
-            <div class="col-6 float-right"><button (click)="clearAndExport('statistics')" type="button" class="btn btn-success btn-square float-right">Temizle ve excele aktar</button></div>
+            <div class="col-4">Toplam Satış: {{ totalSell | number : '.2-2' }} ₺ <br> Toplam Kâr: {{ totalIncome | number : '.2-2' }} ₺</div>
+            <div class="col-4">Listelenen Satış: {{ listSold(statistics | filter:sellProdSearch | slice:min1:max1) | number : '.2-2' }} ₺ <br> Listelenen Kâr: {{ listProfit(statistics | filter:sellProdSearch) | number : '.2-2' }} ₺</div>
+            <div class="col-4 float-right"><button (click)="clearAndExport('statistics')" type="button" class="btn btn-success btn-square float-right">Temizle ve excele aktar</button></div>
           </div>
       </div>
     </div>
@@ -69,7 +81,11 @@
               </span>
               <input type="text" id="input1-group2"  [(ngModel)]="search" name="search" class="form-control" placeholder="Ürün">
             </div>
-              </div>
+          </div>
+          <div class="col-4"></div>
+          <div class="col-4">
+            <button class="btn btn-primary float-right btn-block" type="submit" (click)="allList(2)">Tümünü listele</button>
+          </div>
           <div class="col-12 mt-4">
             <table class="table table-bordered table-striped table-sm" id="stockProd">
               <thead>
@@ -84,31 +100,39 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of stock | filter:search">
+                <tr *ngFor="let item of stock | filter:search | slice:min2:max2">
                   <td>{{ item.process }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.group }}</td>
-                  <td>{{ item.cost | number : '.2-2' }}₺</td>
+                  <td>{{ item.cost | number : '.2-2' }} ₺</td>
                   <td>{{ item.stock }}</td>
-                  <td>{{ item.cost * item.stock | number : '.2-2' }}₺</td>
+                  <td>{{ item.cost * item.stock | number : '.2-2' }} ₺</td>
                   <td>{{ item.date }}</td>
                 </tr>
               </tbody>
             </table>
+            <nav aria-label="..." class="float-right">
+              <ul class="pagination pagination-sm">
+                <li class="page-item" *ngFor="let item of [].constructor(stockLength); let i = index">
+                  <span (click)="pagination(2, i)" class="page-link" tabindex="-1">{{i+1}}</span>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
       <div class="card-footer">
         <div class="row">
-          <div class="col-6">Stok eklenen ürün maliyeti toplamı: {{ totalCost | number : '.2-2' }}₺</div>
-          <div class="col-6"><button (click)="clearAndExport('stock')" type="button" class="btn btn-success btn-square float-right">Temizle ve excele aktar</button></div>
+          <div class="col-4">Toplam maliyet: {{ totalCost | number : '.2-2' }} ₺</div>
+          <div class="col-4">Listelenen maliyet: {{ listCost(stock | filter:search | slice:min2:max2) | number : '.2-2' }} ₺</div>
+          <div class="col-4"><button (click)="clearAndExport('stock')" type="button" class="btn btn-success btn-square float-right">Temizle ve excele aktar</button></div>
         </div>
       </div>
     </div>
     <div class="card">
       <div class="cord-body">
         <div class="alert alert-secondary" style="margin-bottom: 0px;" role="alert">
-          <div>Genel durum : <span [ngStyle]="{'color': totalIncome - totalCost > 0? 'green' : 'red'}">{{ totalSell - totalCost | number : '.2-2' }}₺</span></div>
+          <div>Genel durum : <span [ngStyle]="{'color': totalIncome - totalCost > 0? 'green' : 'red'}">{{ totalSell - totalCost | number : '.2-2' }} ₺</span></div>
         </div>
       </div>
     </div>
