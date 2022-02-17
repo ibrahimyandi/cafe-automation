@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sales',
@@ -29,7 +31,14 @@ export class SalesComponent implements OnInit {
   receiptExists = false;
   ngOnInit(){}
   
-  constructor(private db:AngularFireDatabase){
+  constructor(private db:AngularFireDatabase,auth:AngularFireAuth,private router:Router){
+    auth.onAuthStateChanged((user)=>{
+      if(user){
+        if((user.email == "cafe1@sks.com" || user.email == "admin@sks.com") == false){
+          router.navigate(["/stock"]);
+        }
+      }
+    })
     db.list('/groups').valueChanges().subscribe(i => {
       this.groups = i;
       this.groups.sort((a, b) => {

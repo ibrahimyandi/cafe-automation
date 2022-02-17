@@ -1,14 +1,5 @@
 {
-  "targets": {
-    "cafe-automation": {
-      "hosting": {
-        "ng": [
-          "cafe-automation"
-        ]
-      }
-    }
-  },
   "projects": {
-    "default": "cafe-automation"
+    "default": "sks-cafe"
   }
 }

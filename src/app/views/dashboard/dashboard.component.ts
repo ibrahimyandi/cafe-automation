@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
     auth.onAuthStateChanged((user)=>{
       if(user){
         this.user = user.email;
-        if(this.user.search("user") != -1){
+        if(this.user.search("admin") == -1){
           router.navigate(["/stock"]);
         }
       }

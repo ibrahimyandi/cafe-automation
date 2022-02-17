@@ -27,7 +27,7 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
-    name: 'Kafe 1'
+    name: 'Bab-ı Ahi Kafe'
   },
   {
     name: 'Satış',
@@ -38,7 +38,7 @@ export const navItems: INavData[] = [
     name: 'Stok',
     url: '/cafe1/store',
     icon: 'cil-object-group'
-  },
+  },/*
   {
     title: true,
     name: 'Kafe 2'
@@ -52,10 +52,10 @@ export const navItems: INavData[] = [
     name: 'Stok',
     url: '/cafe2/store',
     icon: 'cil-object-group'
-  },
+  },*/
   {
     title: true,
-    name: 'Restoran 1'
+    name: 'Saha Kafe'
   },
   {
     name: 'Satış',

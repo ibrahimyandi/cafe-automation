@@ -49,14 +49,14 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 
 export const firebase = {
-  apiKey: "AIzaSyBv0qaU_TlNwFozWZ8DyLs4PN4yPdDd-Ug",
-  authDomain: "cafe-automation.firebaseapp.com",
-  databaseURL: "https://cafe-automation-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "cafe-automation",
-  storageBucket: "cafe-automation.appspot.com",
-  messagingSenderId: "707903475595",
-  appId: "1:707903475595:web:ecd35fd872f3de5507e98e",
-  measurementId: "G-HV64N7GWZ3"
+  apiKey: "AIzaSyAcbRlyb-OrzmPZ67jTAlfLQKRGe97AC9E",
+  authDomain: "sks-cafe.firebaseapp.com",
+  databaseURL: "https://sks-cafe-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "sks-cafe",
+  storageBucket: "sks-cafe.appspot.com",
+  messagingSenderId: "554549748246",
+  appId: "1:554549748246:web:908cca0050bf1f2dc7cb37",
+  measurementId: "G-5JH3CTH1ZE"
 };
 @NgModule({
   imports: [

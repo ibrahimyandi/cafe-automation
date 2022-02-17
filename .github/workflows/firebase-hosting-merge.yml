@@ -15,6 +15,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CAFE_AUTOMATION }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SKS_CAFE }}'
           channelId: live
-          projectId: cafe-automation
+          projectId: sks-cafe

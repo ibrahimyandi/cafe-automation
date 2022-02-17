@@ -17,9 +17,18 @@ export class DefaultLayoutComponent {
     auth.onAuthStateChanged((user)=>{
       if(user){
         this.user = user.email;
-        if(this.user.search("user") != -1){
+        if(this.user.search("cafe") != -1 || this.user.search("stock") != -1){
           navItems.splice(0,1);
           router.navigate(["/stock"]);
+        }
+        if(this.user.search("cafe1") != -1){
+          navItems.splice(7,3);
+        }
+        if(this.user.search("cafe2") != -1){
+          navItems.splice(4,3);
+        }
+        if(this.user.search("stock") != -1){
+          navItems.splice(4,9);
         }
       }
     })

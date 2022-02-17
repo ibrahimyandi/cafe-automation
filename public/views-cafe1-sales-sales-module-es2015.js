@@ -65,7 +65,7 @@ SalesModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"animated fadeIn\">\n    <div class=\"row\">\n      <div class=\"col-md-9\">\n        <tabset>\n          <ng-container *ngFor=\"let group of groups\">\n            <tab heading=\"{{group.name}}\">\n              <div class=\"row\">\n                <div *ngFor=\"let prod of products\">\n                  <div class=\"float-left\" *ngIf=\"group.name == prod.payload.val().group && prod.payload.val().cafe1Stock > 0\" (click)=\"selectProduct(prod.key)\">\n                    <div class=\"card\" style=\"cursor: pointer;\">\n                      <div class=\"body\">\n                        <img style=\"width: 128px;height: 128px;\" src=\"{{prod.payload.val().photo}}\" class=\"rounded float-left\" alt=\"...\">\n                      </div>\n                      <div class=\"footer\" style=\"text-align: center;\">\n                        {{ prod.payload.val().name }} ({{ prod.payload.val().cafe1Stock | number : '.2-2' }})\n                      </div>  \n                    </div>\n                  </div>\n                </div>\n              </div>\n            </tab>\n          </ng-container>\n        </tabset>\n      </div>\n      <div class=\"col-md-3\">\n        <div class=\"card\">\n          <div class=\"card-header\">\n            <i class=\"cil-cash\"></i> Satılacaklar\n          </div>\n          <div class=\"card-body\">\n            <div class=\"row\" id=\"printTable\">\n              <table class=\"table table-bordered table-striped table-sm\" *ngIf=\"selectedProd.length > 0\">\n                <thead>\n                  <tr>\n                    <th></th>\n                    <th>Ürün adı</th>\n                    <th>Adet</th>\n                    <th>Fiyat</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of selectedProd, let i = index\">\n                    <td (click)=\"countDecrease(i)\" style=\"display: table-cell;vertical-align: middle;cursor: pointer;text-align: center;\"><i class=\"cil-minus\" style=\"color:red\"></i></td>\n                    <td>{{item.data.name}}</td>\n                    <td>{{item.count}}</td>\n                    <td>{{item.totalPrice | number : '.2-2' }}</td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n            <div class=\"row\">\n              <div class=\"col-6\">\n                <label>Toplam tutar: </label>\n              </div>\n              <div class=\"col-6\">\n                <label>{{totalPrice | number : '.2-2' }}</label>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"col-6\">\n                <label>Alınan para: </label>\n              </div>\n              <div class=\"col-6\">\n                <div class=\"input-prepend input-group\">\n                  <div class=\"input-group-prepend\">\n                    <span class=\"input-group-text\">₺</span>\n                  </div>\n                  <input id=\"appendedPrependedInput\" class=\"form-control\" size=\"16\" type=\"number\" placeholder=\"0\" name=\"alinanPara\" [(ngModel)]=\"alinanPara\">\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"col-6\">\n                <label>Para üstü: </label>\n              </div>\n              <div class=\"col-6\">\n                <label *ngIf=\"alinanPara-this.totalPrice<0\">Eksik para verildi.</label>\n                <label *ngIf=\"alinanPara-this.totalPrice>0\">{{alinanPara-totalPrice | number : '.2-2' }}₺</label>\n                <label *ngIf=\"alinanPara-this.totalPrice==0\">Ödendi</label>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"col-6\">\n                <button (click)=\"sell()\" type=\"button\" class=\"btn btn-success btn-square btn-block\" [disabled]=\"this.totalPrice==0\">SAT</button>\n              </div>\n              <div class=\"col-6\">\n                <button (click)=\"cancel()\" type=\"button\" class=\"btn btn-danger btn-square btn-block\">VAZGEÇ</button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"animated fadeIn\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-9\">\r\n        <tabset>\r\n          <ng-container *ngFor=\"let group of groups\">\r\n            <tab heading=\"{{group.name}}\">\r\n              <div class=\"row\">\r\n                <div *ngFor=\"let prod of products\">\r\n                  <div class=\"float-left\" *ngIf=\"group.name == prod.payload.val().group && prod.payload.val().cafe1Stock > 0\" (click)=\"selectProduct(prod.key)\">\r\n                    <div class=\"card\" style=\"cursor: pointer;\">\r\n                      <div class=\"body\">\r\n                        <img style=\"width: 128px;height: 128px;\" src=\"{{prod.payload.val().photo}}\" class=\"rounded float-left\" alt=\"...\">\r\n                      </div>\r\n                      <div class=\"footer\" style=\"text-align: center;\">\r\n                        {{ prod.payload.val().name }} ({{ prod.payload.val().cafe1Stock | number : '.2-2' }})\r\n                      </div>  \r\n                    </div>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </tab>\r\n          </ng-container>\r\n        </tabset>\r\n      </div>\r\n      <div class=\"col-md-3\">\r\n        <div class=\"card\">\r\n          <div class=\"card-header\">\r\n            <i class=\"cil-cash\"></i> Satılacaklar\r\n          </div>\r\n          <div class=\"card-body\">\r\n            <div class=\"row\" id=\"printTable\">\r\n              <table class=\"table table-bordered table-striped table-sm\" *ngIf=\"selectedProd.length > 0\">\r\n                <thead>\r\n                  <tr>\r\n                    <th></th>\r\n                    <th>Ürün adı</th>\r\n                    <th>Adet</th>\r\n                    <th>Fiyat</th>\r\n                  </tr>\r\n                </thead>\r\n                <tbody>\r\n                  <tr *ngFor=\"let item of selectedProd, let i = index\">\r\n                    <td (click)=\"countDecrease(i)\" style=\"display: table-cell;vertical-align: middle;cursor: pointer;text-align: center;\"><i class=\"cil-minus\" style=\"color:red\"></i></td>\r\n                    <td>{{item.data.name}}</td>\r\n                    <td>{{item.count}}</td>\r\n                    <td>{{item.totalPrice | number : '.2-2' }}</td>\r\n                  </tr>\r\n                </tbody>\r\n              </table>\r\n            </div>\r\n            <div class=\"row\">\r\n              <div class=\"col-6\">\r\n                <label>Toplam tutar: </label>\r\n              </div>\r\n              <div class=\"col-6\">\r\n                <label>{{totalPrice | number : '.2-2' }}</label>\r\n              </div>\r\n            </div>\r\n            <div class=\"row\">\r\n              <div class=\"col-6\">\r\n                <label>Alınan para: </label>\r\n              </div>\r\n              <div class=\"col-6\">\r\n                <div class=\"input-prepend input-group\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <span class=\"input-group-text\"> ₺</span>\r\n                  </div>\r\n                  <input id=\"appendedPrependedInput\" class=\"form-control\" size=\"16\" type=\"number\" placeholder=\"0\" name=\"alinanPara\" [(ngModel)]=\"alinanPara\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"row\">\r\n              <div class=\"col-6\">\r\n                <label>Para üstü: </label>\r\n              </div>\r\n              <div class=\"col-6\">\r\n                <label *ngIf=\"alinanPara-this.totalPrice<0\">Eksik para verildi.</label>\r\n                <label *ngIf=\"alinanPara-this.totalPrice>0\">{{alinanPara-totalPrice | number : '.2-2' }} ₺</label>\r\n                <label *ngIf=\"alinanPara-this.totalPrice==0\">Ödendi</label>\r\n              </div>\r\n            </div>\r\n            <div class=\"row\">\r\n              <div class=\"col-6\">\r\n                <button (click)=\"sell()\" type=\"button\" class=\"btn btn-success btn-square btn-block\" [disabled]=\"this.totalPrice==0\">SAT</button>\r\n              </div>\r\n              <div class=\"col-6\">\r\n                <button (click)=\"cancel()\" type=\"button\" class=\"btn btn-danger btn-square btn-block\">VAZGEÇ</button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>");
 
 /***/ }),
 
@@ -83,13 +83,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _raw_loader_sales_component_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! raw-loader!./sales.component.html */ "6dFN");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "8Y7J");
 /* harmony import */ var _angular_fire_database__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/fire/database */ "bSaC");
+/* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/fire/auth */ "VRCc");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "iInd");
+
+
 
 
 
 
 let SalesComponent = class SalesComponent {
-    constructor(db) {
+    constructor(db, auth, router) {
         this.db = db;
+        this.router = router;
         this.groups = [];
         this.products = [];
         this.totalPrice = 0;
@@ -98,6 +103,13 @@ let SalesComponent = class SalesComponent {
         this.stockDetail = [];
         this.exist = false;
         this.receiptExists = false;
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                if ((user.email == "cafe1@sks.com" || user.email == "admin@sks.com") == false) {
+                    router.navigate(["/stock"]);
+                }
+            }
+        });
         db.list('/groups').valueChanges().subscribe(i => {
             this.groups = i;
             this.groups.sort((a, b) => {
@@ -136,12 +148,16 @@ let SalesComponent = class SalesComponent {
     selectProduct(key) {
         var iter = 0;
         this.selectedProd.forEach(i => {
-            if (key == i.key) {
-                this.exist = true;
-                this.selectedProd[iter].count += 1;
-                this.selectedProd[iter].totalPrice = this.selectedProd[iter].count * this.selectedProd[iter].data.kdvPrice;
-                this.totalPrice += this.selectedProd[iter].data.kdvPrice;
-            }
+            this.products.forEach(element => {
+                if (key == i.key && element.key == key) {
+                    if (element.payload.val().cafe1Stock > this.selectedProd[iter].count) {
+                        this.selectedProd[iter].count += 1;
+                        this.selectedProd[iter].totalPrice = this.selectedProd[iter].count * this.selectedProd[iter].data.kdvPrice;
+                        this.totalPrice += this.selectedProd[iter].data.kdvPrice;
+                    }
+                    this.exist = true;
+                }
+            });
             iter++;
         });
         if (this.exist == false) {
@@ -181,7 +197,6 @@ let SalesComponent = class SalesComponent {
                     if (element.payload.val().stockDetail != undefined) {
                         for (let index = 0; index < this.stockDetail.length; index++) {
                             this.stockDetail[index].stock -= cafeStock;
-                            console.log(this.stockDetail[index].stock);
                             if (this.stockDetail[index].stock > 0) {
                                 break;
                             }
@@ -238,14 +253,16 @@ let SalesComponent = class SalesComponent {
     }
 };
 SalesComponent.ctorParameters = () => [
-    { type: _angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"] }
+    { type: _angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"] },
+    { type: _angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__["AngularFireAuth"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] }
 ];
 SalesComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
         selector: 'app-sales',
         template: _raw_loader_sales_component_html__WEBPACK_IMPORTED_MODULE_1__["default"],
     }),
-    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"]])
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"], _angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__["AngularFireAuth"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
 ], SalesComponent);
 
 

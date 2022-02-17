@@ -7,7 +7,7 @@
 
   function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -122,7 +122,7 @@
 
       var _c0 = ["*"];
 
-      var BsModalRef = function BsModalRef() {
+      var BsModalRef = /*#__PURE__*/_createClass(function BsModalRef() {
         _classCallCheck(this, BsModalRef);
 
         /**
@@ -134,7 +134,7 @@
          */
 
         this.setClass = Function;
-      };
+      });
 
       BsModalRef.ɵfac = function BsModalRef_Factory(t) {
         return new (t || BsModalRef)();
@@ -160,7 +160,7 @@
        */
 
 
-      var ModalBackdropOptions =
+      var ModalBackdropOptions = /*#__PURE__*/_createClass(
       /**
        * @param {?} options
        */
@@ -169,7 +169,7 @@
 
         this.animate = true;
         Object.assign(this, options);
-      };
+      });
 
       if (false) {}
       /**
@@ -182,9 +182,9 @@
        */
 
 
-      var ModalOptions = function ModalOptions() {
+      var ModalOptions = /*#__PURE__*/_createClass(function ModalOptions() {
         _classCallCheck(this, ModalOptions);
-      };
+      });
 
       ModalOptions.ɵfac = function ModalOptions_Factory(t) {
         return new (t || ModalOptions)();

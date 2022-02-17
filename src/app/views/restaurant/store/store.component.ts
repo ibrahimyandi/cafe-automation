@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-store',
@@ -33,7 +35,14 @@ export class StoreComponent implements OnInit {
   materialsList = [];
   modalDetail = [];
   dateString;
-  constructor(private db:AngularFireDatabase){
+  constructor(private db:AngularFireDatabase,auth:AngularFireAuth,private router:Router){
+    auth.onAuthStateChanged((user)=>{
+      if(user){
+        if((user.email == "cafe2@sks.com" || user.email == "admin@sks.com") == false){
+          router.navigate(["/stock"]);
+        }
+      }
+    })
     db.list('/groups').valueChanges().subscribe(i => {
       this.groups = i;
     });

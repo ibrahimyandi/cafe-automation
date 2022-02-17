@@ -3,7 +3,7 @@
 
   function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
   (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["views-restaurant-sales-sales-module"], {
     /***/
@@ -55,20 +55,40 @@
       var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
       /*! ngx-bootstrap/modal */
       "LqlI");
+      /* harmony import */
+
+
+      var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      /*! @angular/fire/auth */
+      "VRCc");
+      /* harmony import */
+
+
+      var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      /*! @angular/router */
+      "iInd");
 
       var SalesComponent = /*#__PURE__*/function () {
-        function SalesComponent(db) {
+        function SalesComponent(db, auth, router) {
           var _this = this;
 
           _classCallCheck(this, SalesComponent);
 
           this.db = db;
+          this.router = router;
           this.table = [];
           this.products = [];
           this.openTable = [];
           this.selectedProd = [];
           this.stockDetail = [];
           this.exist = false;
+          auth.onAuthStateChanged(function (user) {
+            if (user) {
+              if ((user.email == "cafe2@sks.com" || user.email == "admin@sks.com") == false) {
+                router.navigate(["/stock"]);
+              }
+            }
+          });
           this.db.list("/products").snapshotChanges().forEach(function (x) {
             _this.products = x;
           });
@@ -120,12 +140,17 @@
 
             var iter = 0;
             this.selectedProd.forEach(function (i) {
-              if (key == i.key) {
-                _this3.exist = true;
-                _this3.selectedProd[iter].count += 1;
-                _this3.selectedProd[iter].totalPrice = _this3.selectedProd[iter].count * _this3.selectedProd[iter].data.kdvPrice;
-                _this3.totalPrice += _this3.selectedProd[iter].data.kdvPrice;
-              }
+              _this3.products.forEach(function (element) {
+                if (key == i.key && element.key == key) {
+                  if (element.payload.val().restaurant1Stock > _this3.selectedProd[iter].count) {
+                    _this3.selectedProd[iter].count += 1;
+                    _this3.selectedProd[iter].totalPrice = _this3.selectedProd[iter].count * _this3.selectedProd[iter].data.kdvPrice;
+                    _this3.totalPrice += _this3.selectedProd[iter].data.kdvPrice;
+                  }
+
+                  _this3.exist = true;
+                }
+              });
 
               iter++;
             });
@@ -193,6 +218,7 @@
             this.table.forEach(function (x) {
               if (x.payload.key == key) {
                 _this4.selectedProd = x.payload.val().product;
+                _this4.tableName = x.payload.val().name;
               }
             });
             this.totalPrice = 0;
@@ -200,7 +226,7 @@
             this.faturaTarih = date.toLocaleString('tr-TR');
             this.receiptId++;
             var newWin = window.open("");
-            newWin.document.write("<!DOCTYPE html><html lang='en'> <head> <meta charset='utf-8'> <title>SKS Fatura</title> <style> body{ width: 80mm; position: relative; display: block; margin: 0px; font-size: 12px; font-weight: bold; text-transform: uppercase; } .container{ margin: 10px; } .title{ text-align: center; margin-top: 4px; } span{ width: 100px; display: inline-block; } hr.dashed { border-top: 1px dashed black; } th{ width: 80px; text-align: left; } .bodyFooter{ position: relative; } .totalText{ width: 81%; } .total{ float: right; width: 19%; } .footer{ } </style> </head> <body> <div class='container'> <div class='head'> <div class='title'>SKS</div> <br> <div><span>PEŞİN MÜŞTERİ</span>&nbsp;&nbsp;</div>");
+            newWin.document.write("<!DOCTYPE html><html lang='en'> <head> <meta charset='utf-8'> <title>SKS Fatura</title> <style> body{ width: 80mm; position: relative; display: block; margin: 0px; font-size: 12px; font-weight: bold; text-transform: uppercase; } .container{ margin: 10px; } .title{ text-align: center; margin-top: 4px; } span{ width: 100px; display: inline-block; } hr.dashed { border-top: 1px dashed black; } th{ width: 80px; text-align: left; } .bodyFooter{ position: relative; } .totalText{ width: 81%; } .total{ float: right; width: 19%; } .footer{ } </style> </head> <body> <div class='container'> <div class='head'> <div class='title'>SKS</div> <br> <div><span>MASA NO</span>:&nbsp;&nbsp;" + this.tableName + "</div>");
             newWin.document.write("</div> <div><span>TARİH</span>:&nbsp;&nbsp;" + this.faturaTarih + "</div><div><span>FİŞ NO</span>:&nbsp;&nbsp;" + this.receiptId + "</div> </div> <hr class='dashed'> <div class='body'> <table> <tr> <th style='width: 40%;'>ÜRÜN ADI</th> <th style='width: 0px;'></th><th style='width: 0px;'></th> <th>FİYAT</th> <th>ADET</th> <th>TUTAR</th> </tr>");
             this.selectedProd.forEach(function (x) {
               _this4.totalPrice += x.totalPrice;
@@ -302,6 +328,10 @@
       SalesComponent.ctorParameters = function () {
         return [{
           type: _angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"]
+        }, {
+          type: _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__["AngularFireAuth"]
+        }, {
+          type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]
         }];
       };
 
@@ -314,7 +344,7 @@
       SalesComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
         selector: 'app-sales',
         template: _raw_loader_sales_component_html__WEBPACK_IMPORTED_MODULE_1__["default"]
-      }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"]])], SalesComponent);
+      }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_fire_database__WEBPACK_IMPORTED_MODULE_3__["AngularFireDatabase"], _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__["AngularFireAuth"], _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]])], SalesComponent);
       /***/
     },
 
@@ -370,9 +400,9 @@
         }
       }];
 
-      var salesRoutingModule = function salesRoutingModule() {
+      var salesRoutingModule = /*#__PURE__*/_createClass(function salesRoutingModule() {
         _classCallCheck(this, salesRoutingModule);
-      };
+      });
 
       salesRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
         imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forChild(routes)],
@@ -572,7 +602,7 @@
       /* harmony default export */
 
 
-      __webpack_exports__["default"] = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          Masaları düzenle\n        </div>\n        <div class=\"card-body\">\n          <button class=\"btn btn-primary\" type=\"submit\" (click)=\"tableEdit(1)\">Masa ekle</button>\n          <button class=\"btn btn-primary\" type=\"submit\" (click)=\"tableEdit(0)\">Masa çıkar</button>\n\n        </div>\n      </div>\n    </div>\n    <div class=\"col-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          Masalar\n        </div>\n        <div class=\"card-body row\">\n          <div class=\"col-md-4\" *ngFor=\"let item of table\">\n            <div class=\"card\">\n              <div class=\"card-header\">\n                <div class=\"row\">\n                  <div class=\"col-9\">Masa {{ item.payload.val().name }}</div>\n                  <div class=\"col-3\">\n                      <span style=\"float:right;height: 25px;\n                      width: 25px;\n                      border-radius: 50%;\n                      \" [ngStyle]=\"{'background-color': (item.payload.val().product != undefined) ? '#dc3545' : '#28a745'}\"></span>\n                  </div>  \n                </div>\n              </div>\n              <div class=\"card-body\">\n                <h6 class=\"card-title\">Ürün listesi</h6>\n                <table class=\"table\">\n                  <thead>\n                    <tr>\n                      <th scope=\"col\">Ürün</th>\n                      <th scope=\"col\">Adet</th>\n                      <th scope=\"col\">Tutar</th>\n                    </tr>\n                  </thead>\n                  <tbody>\n                    <tr *ngFor=\"let prod of item.payload.val().product\">\n                      <td>{{ prod.data.name }}</td>\n                      <td>{{ prod.count }}</td>\n                      <td>{{ prod.totalPrice | number : '.2-2' }}</td>\n                    </tr>\n                    <tr>\n                      <td colspan=\"2\">Toplam tutar</td>\n                      <td>{{ getSum(item.payload.val().product) | number : '.2-2' }}</td>\n                    </tr>\n                  </tbody>\n                </table>\n              </div>\n              <div class=\"card-footer\">\n                <div class=\"row\">\n                  <div class=\"col-6\">\n                    <button class=\"btn btn-primary\" type=\"submit\" (click)=\"modalOpen(item.payload.key)\">Ürün ekle</button>\n                  </div>\n                  <div class=\"col-6\">\n                    <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"item.payload.val().product == undefined\" (click)=\"sell(item.payload.key)\">Satış</button>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<div bsModal #largeModal=\"bs-modal\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-lg\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h4 class=\"modal-title\">Masa ürün ekleme</h4>\n        <button type=\"button\" class=\"close\" (click)=\"largeModal.hide()\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <div class=\"card\">\n          <div class=\"card-header\">\n            <div class=\"input-group\">\n              <span class=\"input-group-prepend\">\n                <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-search\"></i> Ara</button>\n              </span>\n              <input type=\"text\" id=\"input1-group2\" name=\"search\" class=\"form-control\" placeholder=\"Ürün\" [(ngModel)]=\"search\">  \n            </div>\n          </div>\n          <div class=\"card-body\">\n            <div class=\"row\">\n              <ng-container *ngFor=\"let item of products | filter:search\">\n                <div class=\"col-4\" style=\"cursor: pointer;\" (click)=\"selectProduct(item.payload.key)\" *ngIf=\"item.payload.val().restaurant1Stock > 0\">\n                  <div>{{item.payload.val().name}}({{item.payload.val().restaurant1Stock | number : '.2-2' }})</div>\n                </div>\n              </ng-container>\n            </div>\n          </div>\n          <div class=\"card-footer\">\n            <table class=\"table table-bordered table-striped table-sm\" *ngIf=\"selectedProd != undefined \">\n              <thead>\n                <tr>\n                  <th></th>\n                  <th>Ürün adı</th>\n                  <th>Adet</th>\n                  <th>Fiyat</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let item of selectedProd, let i = index\">\n                  <td (click)=\"countDecrease(i)\" style=\"display: table-cell;vertical-align: middle;cursor: pointer;text-align: center;\"><i class=\"cil-minus\" style=\"color:red\"></i></td>\n                  <td>{{item.data.name}}</td>\n                  <td>{{item.count}}</td>\n                  <td>{{item.totalPrice | number : '.2-2' }}</td>\n                </tr>\n              </tbody>\n            </table>      \n          </div>\n        </div>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"largeModal.hide()\">Vazgeç</button>\n        <button type=\"button\" class=\"btn btn-primary\" (click)=\"addProduct()\">Değişiklikleri kaydet</button>\n      </div>\n    </div><!-- /.modal-content -->\n  </div><!-- /.modal-dialog -->\n</div><!-- /.modal -->\n";
+      __webpack_exports__["default"] = "<div class=\"animated fadeIn\">\r\n  <div class=\"row\">\r\n    <div class=\"col-12\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Masaları düzenle\r\n        </div>\r\n        <div class=\"card-body\">\r\n          <button class=\"btn btn-primary\" type=\"submit\" (click)=\"tableEdit(1)\">Masa ekle</button>\r\n          <button class=\"btn btn-primary\" type=\"submit\" (click)=\"tableEdit(0)\">Masa çıkar</button>\r\n\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-12\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Masalar\r\n        </div>\r\n        <div class=\"card-body row\">\r\n          <div class=\"col-md-4\" *ngFor=\"let item of table\">\r\n            <div class=\"card\">\r\n              <div class=\"card-header\">\r\n                <div class=\"row\">\r\n                  <div class=\"col-9\">Masa {{ item.payload.val().name }}</div>\r\n                  <div class=\"col-3\">\r\n                      <span style=\"float:right;height: 25px;\r\n                      width: 25px;\r\n                      border-radius: 50%;\r\n                      \" [ngStyle]=\"{'background-color': (item.payload.val().product != undefined) ? '#dc3545' : '#28a745'}\"></span>\r\n                  </div>  \r\n                </div>\r\n              </div>\r\n              <div class=\"card-body\">\r\n                <h6 class=\"card-title\">Ürün listesi</h6>\r\n                <table class=\"table\">\r\n                  <thead>\r\n                    <tr>\r\n                      <th scope=\"col\">Ürün</th>\r\n                      <th scope=\"col\">Adet</th>\r\n                      <th scope=\"col\">Tutar</th>\r\n                    </tr>\r\n                  </thead>\r\n                  <tbody>\r\n                    <tr *ngFor=\"let prod of item.payload.val().product\">\r\n                      <td>{{ prod.data.name }}</td>\r\n                      <td>{{ prod.count }}</td>\r\n                      <td>{{ prod.totalPrice | number : '.2-2' }}</td>\r\n                    </tr>\r\n                    <tr>\r\n                      <td colspan=\"2\">Toplam tutar</td>\r\n                      <td>{{ getSum(item.payload.val().product) | number : '.2-2' }}</td>\r\n                    </tr>\r\n                  </tbody>\r\n                </table>\r\n              </div>\r\n              <div class=\"card-footer\">\r\n                <div class=\"row\">\r\n                  <div class=\"col-6\">\r\n                    <button class=\"btn btn-primary float-left btn-block\" type=\"submit\" (click)=\"modalOpen(item.payload.key)\">Ürün ekle</button>\r\n                  </div>\r\n                  <div class=\"col-6\">\r\n                    <button class=\"btn btn-primary float-right btn-block\" type=\"submit\" [disabled]=\"item.payload.val().product == undefined\" (click)=\"sell(item.payload.key)\">Satış</button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div bsModal #largeModal=\"bs-modal\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog modal-lg\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Masa ürün ekleme</h4>\r\n        <button type=\"button\" class=\"close\" (click)=\"largeModal.hide()\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <div class=\"card\">\r\n          <div class=\"card-header\">\r\n            <div class=\"input-group\">\r\n              <span class=\"input-group-prepend\">\r\n                <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-search\"></i> Ara</button>\r\n              </span>\r\n              <input type=\"text\" id=\"input1-group2\" name=\"search\" class=\"form-control\" placeholder=\"Ürün\" [(ngModel)]=\"search\">  \r\n            </div>\r\n          </div>\r\n          <div class=\"card-body\">\r\n            <div class=\"row\">\r\n              <ng-container *ngFor=\"let item of products | filter:search\">\r\n                <div class=\"col-4\" style=\"cursor: pointer;\" (click)=\"selectProduct(item.payload.key)\" *ngIf=\"item.payload.val().restaurant1Stock > 0\">\r\n                  <div>{{item.payload.val().name}}({{item.payload.val().restaurant1Stock | number : '.2-2' }})</div>\r\n                </div>\r\n              </ng-container>\r\n            </div>\r\n          </div>\r\n          <div class=\"card-footer\">\r\n            <table class=\"table table-bordered table-striped table-sm\" *ngIf=\"selectedProd != undefined \">\r\n              <thead>\r\n                <tr>\r\n                  <th></th>\r\n                  <th>Ürün adı</th>\r\n                  <th>Adet</th>\r\n                  <th>Fiyat</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr *ngFor=\"let item of selectedProd, let i = index\">\r\n                  <td (click)=\"countDecrease(i)\" style=\"display: table-cell;vertical-align: middle;cursor: pointer;text-align: center;\"><i class=\"cil-minus\" style=\"color:red\"></i></td>\r\n                  <td>{{item.data.name}}</td>\r\n                  <td>{{item.count}}</td>\r\n                  <td>{{item.totalPrice | number : '.2-2' }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>      \r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" (click)=\"largeModal.hide()\">Vazgeç</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" (click)=\"addProduct()\">Değişiklikleri kaydet</button>\r\n      </div>\r\n    </div><!-- /.modal-content -->\r\n  </div><!-- /.modal-dialog -->\r\n</div><!-- /.modal -->\r\n";
       /***/
     }
   }]);
