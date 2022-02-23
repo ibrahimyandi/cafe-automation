@@ -94,21 +94,14 @@ export class StockComponent implements OnInit {
           average += element.cost * element.stock;
           amount += element.stock;
         });
-        console.log(amount);
         if(amount != 0){
           average = average / amount;
           this.db.database.ref("/products/"+this.keys).update({cost: average});
-        }
-        else{
-          this.db.database.ref("/products/"+this.keys).update({cost: 0});
         }
         
       }
       else if(this.stockDetail.length == 1){
         this.db.database.ref("/products/"+this.keys).update({cost: this.stockDetail[0].cost});
-      }
-      else{
-        this.db.database.ref("/products/"+this.keys).update({cost: 0});
       }
       this.db.database.ref('/products/'+ this.keys).update({stock: this.stocks - stock});
       this.db.database.ref('/products/'+ this.keys+'/stockDetail').set(array);
@@ -121,28 +114,26 @@ export class StockComponent implements OnInit {
   addStock(stock){
     const date = new Date();
     this.dateString = date.toLocaleString('tr-TR');
-    this.result = 1; 
     this.total = this.stocks + stock * this.prodCount;
     if(this.materialCount != 0){
       this.materialsList.forEach(x=>{
         this.products.forEach(element => {
           if(element.key == x.id){
             var stocks = element.payload.val().stock;
-            if(stocks - x.amount * stock < 0)
-              this.result = 0;
-          }
-        })
-      });
-      if(this.result == 1){
-        this.materialsList.forEach(x=>{
-          this.products.forEach(element => {
-            if(element.key == x.id){
-              var stocks = element.payload.val().stock;
-              stocks -= x.amount * stock;
-              var newStocks = x.amount * stock;
-              this.db.database.ref('/products/'+ x.id).update({stock:stocks});
-              var array = [];
+            stocks -= x.amount * stock;
+            var newStocks = x.amount * stock;
+            this.db.database.ref('/products/'+ x.id).update({stock:stocks});
+            var array = [];
+            if(element.payload.val().stock == 0){
+              array.push({cost:element.payload.val().cost, stock:-1*newStocks});
+              this.db.database.ref('/products/'+ x.id +'/stockDetail').set(array);
+            }
+            else if(element.payload.val().stock < 0){
               array = element.payload.val().stockDetail;
+              array[0].stock = array[0].stock + newStocks * -1;
+              this.db.database.ref('/products/'+ x.id +'/stockDetail').set(array);
+            }
+            else{
               if(element.payload.val().stockDetail != undefined){
                 array = element.payload.val().stockDetail;
                 for (let index = array.length; index > 0; index--) {
@@ -152,42 +143,32 @@ export class StockComponent implements OnInit {
                   }
                   else{
                     newStocks = array[index-1].stock * -1;
-                    array.splice(index-1,1);
+                    if(index != 1)
+                      array.splice(index-1,1);
                   }
-                  console.log(newStocks);
                 }
-                console.log(array);
                 this.db.database.ref('/products/'+ x.id +'/stockDetail').set(array);
+                if(array.length > 0){
+                  var average = 0;
+                  var amount = 0;
+                  array.forEach(element => {
+                    average += element.cost * element.stock;
+                    amount += element.stock;
+                  });
+                  average = average / amount;
+                }
+                else if(array.length == 1){
+                  average = array[0].cost;
+                }
+                this.db.database.ref("/products/"+element.key).update({cost: average});
               }
             }
-          })
+          }
         })
-        this.stockDetail.push({stock:stock, cost:this.cost});
-        this.db.database.ref('/products/'+this.keys+'/stockDetail').update(this.stockDetail);
-        this.db.database.ref('/products/'+this.keys).update({stock:this.total});
-        var average = 0;
-        if(this.stockDetail.length > 0){
-          var amount = 0;
-          this.stockDetail.forEach(element => {
-            average += element.cost * element.stock;
-            amount += element.stock;
-          });
-          average = average / amount;
-        }
-        else if(this.stockDetail.length == 1){
-          average = this.stockDetail[0].cost;
-        }
-        console.log(average);
-        this.db.database.ref("/products/"+this.keys).update({cost: average});
-        this.largeModal.hide();
-        this.total = 0;
-        this.db.list("/statistics/stock").push({process:"Depo ekleme", name:this.name,group:this.group,date:this.dateString,stock:stock,cost:this.oldCost});    
-        this.stock=null;
-        this.stockDetail = [];
-      }
-    }
-    else{
+      })
       this.stockDetail.push({stock:stock, cost:this.cost});
+      this.db.database.ref('/products/'+this.keys+'/stockDetail').update(this.stockDetail);
+      this.db.database.ref('/products/'+this.keys).update({stock:this.total});
       if(this.stockDetail.length > 0){
         var average = 0;
         var amount = 0;
@@ -196,13 +177,55 @@ export class StockComponent implements OnInit {
           amount += element.stock;
         });
         average = average / amount;
-        this.db.database.ref("/products/"+this.keys).update({cost: average});
+      }
+      else if(this.stockDetail.length == 1){
+        average = this.stockDetail[0].cost;
+      }
+      this.db.database.ref("/products/"+this.keys).update({cost: average});
+      this.largeModal.hide();
+      this.total = 0;
+      this.db.list("/statistics/stock").push({process:"Depo ekleme", name:this.name,group:this.group,date:this.dateString,stock:stock,cost:this.oldCost});    
+      this.stock=null;
+      this.stockDetail = [];
+    }
+    else{
+      if(this.stocks + stock == 0){
+        this.stockDetail = [];
+        this.db.database.ref("/products/"+this.keys).update({stock:0});
+      }
+      if(this.stocks + stock < 0){
+        this.stockDetail[0].stock += stock;
+        this.db.database.ref("/products/"+this.keys).update({cost:this.cost, stock:this.stocks + stock});
+      }
+      if(this.stocks + stock > 0){
+        if(this.stocks < 0){
+          var fazlalik = this.stocks + stock;
+          this.stockDetail = [];
+          this.stockDetail.push({cost:this.cost, stock:fazlalik});
+          this.db.database.ref("/products/"+this.keys).update({cost:this.cost,stock:this.stocks + stock});
+        }
+        else if(this.stocks >= 0){
+          this.stockDetail.push({stock:stock, cost:this.cost});
+          this.db.database.ref("/products/"+this.keys).update({cost: this.cost});
+          this.db.database.ref('/products/'+this.keys).update({stock:this.stocks + stock});
+        }
+        if(this.stockDetail.length > 1){
+          if(this.stocks > 0){
+            var average = 0;
+            var amount = 0;
+            this.stockDetail.forEach(element => {
+              average += element.cost * element.stock;
+              amount += element.stock;
+            });
+            average = average / amount;
+          }
+          this.db.database.ref("/products/"+this.keys).update({cost: average});
+        }
       }
       else if(this.stockDetail.length == 1){
         this.db.database.ref("/products/"+this.keys).update({cost: this.stockDetail[0].cost});
       }
-      this.db.database.ref('/products/'+this.keys+'/stockDetail').update(this.stockDetail);
-      this.db.database.ref('/products/'+this.keys).update({stock:this.total});
+      this.db.database.ref('/products/'+this.keys+'/stockDetail').set(this.stockDetail);
       this.db.list("/statistics/stock").push({process:"Depo ekleme", name:this.name,group:this.group,date:this.dateString,stock:stock,cost:this.cost});    
       this.largeModal.hide();
       this.total = 0;
@@ -219,5 +242,18 @@ export class StockComponent implements OnInit {
       }
     });
     this.stockDetail = [];
+    this.products.forEach(i=>{
+      if(this.materialCount != 0){
+        this.materialsList = i.payload.val().material;
+        this.cost = 0;
+        this.materialsList.forEach(x=>{
+            if(this.keys == x.id){
+              this.cost += x.amount * this.cost;
+            }        
+        });
+        if(this.keys != undefined)
+          this.db.database.ref('/products/'+this.keys).update({cost:this.cost});
+      }
+    })
   }
 }
