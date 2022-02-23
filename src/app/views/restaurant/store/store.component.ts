@@ -128,6 +128,6 @@ export class StoreComponent implements OnInit {
     this.restaurant1Stocks = 0;
     //this.stock = 0;
     this.largeModal2.hide();
-    this.db.list("/statistics/stock").push({process:"Restoran 1 iade",name:this.name,group:this.group,date:this.dateString,stock:stock,cost:0});
+    this.db.list("/statistics/stock").push({process:"Restoran 1 çöp",name:this.name,group:this.group,date:this.dateString,stock:stock,cost:0});
   }
 }

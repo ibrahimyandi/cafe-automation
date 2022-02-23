@@ -150,25 +150,16 @@
                   average += element.cost * element.stock;
                   amount += element.stock;
                 });
-                console.log(amount);
 
                 if (amount != 0) {
                   average = average / amount;
                   this.db.database.ref("/products/" + this.keys).update({
                     cost: average
                   });
-                } else {
-                  this.db.database.ref("/products/" + this.keys).update({
-                    cost: 0
-                  });
                 }
               } else if (this.stockDetail.length == 1) {
                 this.db.database.ref("/products/" + this.keys).update({
                   cost: this.stockDetail[0].cost
-                });
-              } else {
-                this.db.database.ref("/products/" + this.keys).update({
-                  cost: 0
                 });
               }
 
@@ -196,7 +187,6 @@
 
             var date = new Date();
             this.dateString = date.toLocaleString('tr-TR');
-            this.result = 1;
             this.total = this.stocks + stock * this.prodCount;
 
             if (this.materialCount != 0) {
@@ -204,26 +194,28 @@
                 _this4.products.forEach(function (element) {
                   if (element.key == x.id) {
                     var stocks = element.payload.val().stock;
-                    if (stocks - x.amount * stock < 0) _this4.result = 0;
-                  }
-                });
-              });
+                    stocks -= x.amount * stock;
+                    var newStocks = x.amount * stock;
 
-              if (this.result == 1) {
-                this.materialsList.forEach(function (x) {
-                  _this4.products.forEach(function (element) {
-                    if (element.key == x.id) {
-                      var stocks = element.payload.val().stock;
-                      stocks -= x.amount * stock;
-                      var newStocks = x.amount * stock;
+                    _this4.db.database.ref('/products/' + x.id).update({
+                      stock: stocks
+                    });
 
-                      _this4.db.database.ref('/products/' + x.id).update({
-                        stock: stocks
+                    var array = [];
+
+                    if (element.payload.val().stock == 0) {
+                      array.push({
+                        cost: element.payload.val().cost,
+                        stock: -1 * newStocks
                       });
 
-                      var array = [];
+                      _this4.db.database.ref('/products/' + x.id + '/stockDetail').set(array);
+                    } else if (element.payload.val().stock < 0) {
                       array = element.payload.val().stockDetail;
+                      array[0].stock = array[0].stock + newStocks * -1;
 
+                      _this4.db.database.ref('/products/' + x.id + '/stockDetail').set(array);
+                    } else {
                       if (element.payload.val().stockDetail != undefined) {
                         array = element.payload.val().stockDetail;
 
@@ -234,61 +226,39 @@
                             break;
                           } else {
                             newStocks = array[index - 1].stock * -1;
-                            array.splice(index - 1, 1);
+                            if (index != 1) array.splice(index - 1, 1);
                           }
-
-                          console.log(newStocks);
                         }
 
-                        console.log(array);
-
                         _this4.db.database.ref('/products/' + x.id + '/stockDetail').set(array);
+
+                        if (array.length > 0) {
+                          var average = 0;
+                          var amount = 0;
+                          array.forEach(function (element) {
+                            average += element.cost * element.stock;
+                            amount += element.stock;
+                          });
+                          average = average / amount;
+                        } else if (array.length == 1) {
+                          average = array[0].cost;
+                        }
+
+                        _this4.db.database.ref("/products/" + element.key).update({
+                          cost: average
+                        });
                       }
                     }
-                  });
+                  }
                 });
-                this.stockDetail.push({
-                  stock: stock,
-                  cost: this.cost
-                });
-                this.db.database.ref('/products/' + this.keys + '/stockDetail').update(this.stockDetail);
-                this.db.database.ref('/products/' + this.keys).update({
-                  stock: this.total
-                });
-                var average = 0;
-
-                if (this.stockDetail.length > 0) {
-                  var amount = 0;
-                  this.stockDetail.forEach(function (element) {
-                    average += element.cost * element.stock;
-                    amount += element.stock;
-                  });
-                  average = average / amount;
-                } else if (this.stockDetail.length == 1) {
-                  average = this.stockDetail[0].cost;
-                }
-
-                console.log(average);
-                this.db.database.ref("/products/" + this.keys).update({
-                  cost: average
-                });
-                this.largeModal.hide();
-                this.total = 0;
-                this.db.list("/statistics/stock").push({
-                  process: "Depo ekleme",
-                  name: this.name,
-                  group: this.group,
-                  date: this.dateString,
-                  stock: stock,
-                  cost: this.oldCost
-                });
-                this.stock = null;
-                this.stockDetail = [];
-              }
-            } else {
+              });
               this.stockDetail.push({
                 stock: stock,
                 cost: this.cost
+              });
+              this.db.database.ref('/products/' + this.keys + '/stockDetail').update(this.stockDetail);
+              this.db.database.ref('/products/' + this.keys).update({
+                stock: this.total
               });
 
               if (this.stockDetail.length > 0) {
@@ -299,19 +269,88 @@
                   amount += element.stock;
                 });
                 average = average / amount;
+              } else if (this.stockDetail.length == 1) {
+                average = this.stockDetail[0].cost;
+              }
+
+              this.db.database.ref("/products/" + this.keys).update({
+                cost: average
+              });
+              this.largeModal.hide();
+              this.total = 0;
+              this.db.list("/statistics/stock").push({
+                process: "Depo ekleme",
+                name: this.name,
+                group: this.group,
+                date: this.dateString,
+                stock: stock,
+                cost: this.oldCost
+              });
+              this.stock = null;
+              this.stockDetail = [];
+            } else {
+              if (this.stocks + stock == 0) {
+                this.stockDetail = [];
                 this.db.database.ref("/products/" + this.keys).update({
-                  cost: average
+                  stock: 0
                 });
+              }
+
+              if (this.stocks + stock < 0) {
+                this.stockDetail[0].stock += stock;
+                this.db.database.ref("/products/" + this.keys).update({
+                  cost: this.cost,
+                  stock: this.stocks + stock
+                });
+              }
+
+              if (this.stocks + stock > 0) {
+                if (this.stocks < 0) {
+                  var fazlalik = this.stocks + stock;
+                  this.stockDetail = [];
+                  this.stockDetail.push({
+                    cost: this.cost,
+                    stock: fazlalik
+                  });
+                  this.db.database.ref("/products/" + this.keys).update({
+                    cost: this.cost,
+                    stock: this.stocks + stock
+                  });
+                } else if (this.stocks >= 0) {
+                  this.stockDetail.push({
+                    stock: stock,
+                    cost: this.cost
+                  });
+                  this.db.database.ref("/products/" + this.keys).update({
+                    cost: this.cost
+                  });
+                  this.db.database.ref('/products/' + this.keys).update({
+                    stock: this.stocks + stock
+                  });
+                }
+
+                if (this.stockDetail.length > 1) {
+                  if (this.stocks > 0) {
+                    var average = 0;
+                    var amount = 0;
+                    this.stockDetail.forEach(function (element) {
+                      average += element.cost * element.stock;
+                      amount += element.stock;
+                    });
+                    average = average / amount;
+                  }
+
+                  this.db.database.ref("/products/" + this.keys).update({
+                    cost: average
+                  });
+                }
               } else if (this.stockDetail.length == 1) {
                 this.db.database.ref("/products/" + this.keys).update({
                   cost: this.stockDetail[0].cost
                 });
               }
 
-              this.db.database.ref('/products/' + this.keys + '/stockDetail').update(this.stockDetail);
-              this.db.database.ref('/products/' + this.keys).update({
-                stock: this.total
-              });
+              this.db.database.ref('/products/' + this.keys + '/stockDetail').set(this.stockDetail);
               this.db.list("/statistics/stock").push({
                 process: "Depo ekleme",
                 name: this.name,
@@ -339,6 +378,22 @@
               }
             });
             this.stockDetail = [];
+            this.products.forEach(function (i) {
+              if (_this4.materialCount != 0) {
+                _this4.materialsList = i.payload.val().material;
+                _this4.cost = 0;
+
+                _this4.materialsList.forEach(function (x) {
+                  if (_this4.keys == x.id) {
+                    _this4.cost += x.amount * _this4.cost;
+                  }
+                });
+
+                if (_this4.keys != undefined) _this4.db.database.ref('/products/' + _this4.keys).update({
+                  cost: _this4.cost
+                });
+              }
+            });
           }
         }]);
 
